@@ -1,13 +1,15 @@
 
-function_inla_total <- function(Year_max, Year_min,Sex) {
+function_inla_total <- function(varBirth,varPop,Year_max, Year_min,pop_group) {
   
   load("data/data_total.RData")
   
   dat.excess <- data_total %>%
-    filter(Geschlecht==Sex) %>%
-    select(birth, Year, Month, count,pop.monthly) %>%
+    filter(Geschlecht==pop_group) %>%
+    select(eval(substitute(varBirth)), birth,Year, Month,eval(substitute(varPop))) %>%
     mutate(Year=as.numeric(as.character(Year)))%>%
-    filter(Year >=Year_min & Year <=Year_max )
+    filter(Year >=Year_min & Year <=Year_max ) %>%
+    rename(birth_var = eval(substitute(varBirth)),
+           denominator = eval(substitute(varPop)))
   
   
   year_smooth <- 5
@@ -26,19 +28,14 @@ function_inla_total <- function(Year_max, Year_min,Sex) {
   # # f(timeID, model='seasonal',season.length=12)
   
 
-  formula <- count ~ 1 + offset(log(pop.monthly))  +
+  formula <- birth_var~ 1 + offset(log(denominator))  +
     timeID +
     as.factor(MonthID2) +
-    # YearID+
-     f(YearID, model='ar1',hyper=hyper.iid) +
-    # f(MonthID, model='ar1',hyper=hyper.iid) +
-    # f(timeID2, model='ar1',hyper=hyper.iid, constr=T) 
-    # f(seasID, model='seasonal', season.length =12)
     f(timeID2, model='rw1',scale.model = T,cyclic = TRUE, hyper=hyper.iid)
   # f(timeID, model='seasonal',season.length=12)
   
   
-  # formula <- count ~ 1 + offset(log(pop.monthly))  + 
+  # formula <- eval(substitute(varBirth)) ~ 1 + offset(log(pop.monthly))  + 
   #   f(MonthID, model='iid',hyper=hyper.iid) +
   #   f(seasID, model='seasonal', season.length =12) +
   #   f(timeID, model='rw1',scale.model = T,cyclic = TRUE, hyper=hyper.iid) 
@@ -65,9 +62,10 @@ function_inla_total <- function(Year_max, Year_min,Sex) {
     # }
     # 
    
+    
       reg_data <-  dat.excess %>% 
-        filter(Year >= YEAR+1 - year_smooth & Year < YEAR+1)%>%
-        mutate(count=ifelse (Year ==YEAR, NA, count)) %>% 
+        filter(Year >= YEAR+1 - year_smooth & Year < YEAR+1) %>%
+        mutate(birth_var =ifelse (Year ==YEAR, NA,birth_var)) %>% 
         # filter(!Year == Year_Pan)  %>% 
         # filter(!Year==1918) %>%
         arrange(Year, Month) %>%
@@ -113,12 +111,12 @@ function_inla_total <- function(Year_max, Year_min,Sex) {
     Data= cbind(reg_data,dM)
     
     mean.samples <- Data %>%
-      select(starts_with("V"), "Month", "Year", "count", "pop.monthly") %>%
+      select(starts_with("V"), "Month", "Year") %>%
       rowwise(Month) %>%
       mutate(fit = median(c_across(V1:V1000)),
              LL = quantile(c_across(V1:V1000), probs= 0.025),
              UL = quantile(c_across(V1:V1000), probs= 0.975)) %>%
-      select(Month, fit, LL, UL, Year, count,pop.monthly) %>%
+      select(Month, fit, LL, UL, Year) %>%
       filter(Year==YEAR) %>%
       arrange(Year, Month) %>%
       left_join(dat.excess, by=c("Year", "Month"))
@@ -136,18 +134,21 @@ function_inla_total <- function(Year_max, Year_min,Sex) {
   expected_birth <- expected_birth %>%
     bind_rows(., .id = "column_label")
   
-  write.xlsx( expected_birth,paste0("data/expected_birth_inla_month_",Sex,".xlsx"), rowNames=FALSE, overwrite = TRUE)
-  save( expected_birth,file=paste0("data/expected_birth_inla_month_",Sex,".RData"))
+  write.xlsx( expected_birth,paste0("data/expected_birth_inla_month_",varBirth,"_",pop_group,".xlsx"), rowNames=FALSE, overwrite = TRUE)
+  save( expected_birth,file=paste0("data/expected_birth_inla_month_",varBirth,"_",pop_group,".RData"))
 }
 
+function_inla_total(varBirth="parity_1",varPop="total_birth",Year_max=2022, Year_min=2005,pop_group="Geschlecht - Total")
+function_inla_total(varBirth="parity_sup_1",varPop="total_birth",Year_max=2022, Year_min=2005,pop_group="Geschlecht - Total")
+
+function_inla_total(varBirth="single_birth",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total")
+function_inla_total(varBirth="multiple_birth",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total")
+
+function_inla_total(varBirth="females",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total")
+function_inla_total(varBirth="males",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total")
 
 
-
-
-function_inla_total(Year_max=2022, Year_min=1987,Sex="Geschlecht - Total")
-
-
-function_inla_total(Year_max=2022, Year_min=1987, Sex="Frau")
+function_inla_total(Year_max=2022, Year_min=1870, pop_group="Frau")
 
 
 
