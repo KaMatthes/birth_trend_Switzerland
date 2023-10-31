@@ -9,12 +9,16 @@ data_birth_g <- read.xlsx("data/birth_count_per_subgroup_1987_2022.xlsx",detectD
 
 
 data_birth_1871 <- read.xlsx("data/FSO_published_livebriths_per_months_1871_2023.xlsx",detectDates = TRUE) %>%
+  filter(Year <1987) %>%
   mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
          Year = as.factor(Year)) %>%
-  select(-Count_IEM)
+  select(-Count_IEM) %>%
+  mutate(Canton ="Switzerland",
+         Citizenship="total")
 
 
-data_birth <- bind_rows(data_birth_g, data_birth_1871)
+data_birth <- bind_rows(data_birth_g, data_birth_1871) %>%
+  select(-Canton, -Citizenship)
 
 data_pop_total <- read.xlsx("data/population.xlsx") %>%
   gather(.,Year, population, `1860`:`2022`) %>%
@@ -23,28 +27,29 @@ data_pop_total <- read.xlsx("data/population.xlsx") %>%
   filter(Geschlecht=="Geschlecht - Total")
 
 
-data_pop_citizen <- read.xlsx("data/Population_1987_2022.xlsx") %>%
-  rename(population.citizen = `Population.on.31.December`) %>%
+data_pop2 <- read.xlsx("data/Population_1987_2022.xlsx") %>%
   rename(Geschlecht = Sex) %>%
   rename(Alter = Age) %>%
-  mutate(Year=as.character(Year)) %>%
-  filter(Canton =="Switzerland") %>%
+  rename(Citizenship = `Citizenship.(category)`) %>%
+  mutate(Year=as.character(Year),
+         Citizenship= recode(Citizenship, "Citizenship (category) - total" = "total")) %>%
   filter(Alter == "Age - total") %>%
-  filter(Geschlecht=="Sex - total") %>%
-  filter(!`Citizenship.(category)` == "Citizenship (category) - total")
+  filter(Geschlecht=="Sex - total")  %>%
+  mutate(Alter=recode(Alter, "Age - total" = "Alter - Total"),
+         Geschlecht = recode(Geschlecht, "Sex - total" = "Geschlecht - Total"))
+  
+  
+data_pop_citizen <- data_pop2 %>%
+  rename(population= `Population.on.31.December`) %>%
+  filter(Canton =="Switzerland") 
 
 
-data_pop_language <- read.xlsx("data/Population_1987_2022.xlsx") %>%
+data_pop_language <- data_pop2 %>%
   rename(population = `Population.on.31.December`) %>%
-  rename(Geschlecht = Sex) %>%
-  rename(Alter = Age) %>%
-  mutate(Year=as.character(Year)) %>%
-  filter(!Canton =="Switzerland") %>%
-  filter(Alter == "Age - total") %>%
-  filter(Geschlecht=="Sex - total") %>%
-  filter(`Citizenship.(category)` == "Citizenship (category) - total") %>%
-  mutate(Language = Canton,
-         Language = recode(Language,
+  # filter(!Canton =="Switzerland") %>%
+  filter(Citizenship == "total") %>%
+  mutate(
+         Canton = recode(Canton,
                            "Zürich" = "German",
                            "Bern / Berne" = "German",
                            "Luzern" ="German",
@@ -71,10 +76,11 @@ data_pop_language <- read.xlsx("data/Population_1987_2022.xlsx") %>%
                            "Neuchâtel" ="French",
                            "Genève" ="French",
                            "Jura" ="French")) %>%
-  filter(!Language == "No indication") %>%
-  group_by(Year,Language) %>%
-  mutate(pop.language = sum(population)) %>%
-  ungroup()
+  # filter(!Language == "No indication") %>%
+  group_by(Year,Canton) %>%
+  mutate(population = sum(population)) %>%
+  ungroup() %>%
+  distinct(Year, Canton, .keep_all = TRUE)
 
 
 data_pop_rep_women <- read.xlsx("data/population.xlsx") %>%
@@ -93,6 +99,40 @@ data_pop_rep_women <- read.xlsx("data/population.xlsx") %>%
   select(Year, Geschlecht,population) %>%
   mutate(Alter="15-49") 
 
+
+data_pop_rep_women30 <- read.xlsx("data/population.xlsx") %>%
+  gather(.,Year, population, `1860`:`2022`) %>%
+  filter(Year > 1870) %>%
+  filter(!Alter == "Alter - Total") %>%
+  filter(!Alter == "99 Jahre und mehr") %>%
+  filter(Geschlecht=="Frau") %>%
+  mutate(Alter = substr(Alter,1, 2),
+         Alter = as.numeric(Alter)) %>%
+  filter(Alter >14 & Alter < 30) %>%
+  group_by(Year) %>%
+  mutate(population = sum(population)) %>%
+  ungroup() %>%
+  distinct(Year, .keep_all=TRUE) %>%
+  select(Year, Geschlecht,population) %>%
+  mutate(Alter="15-29") 
+
+
+data_pop_rep_women30_49 <- read.xlsx("data/population.xlsx") %>%
+  gather(.,Year, population, `1860`:`2022`) %>%
+  filter(Year > 1870) %>%
+  filter(!Alter == "Alter - Total") %>%
+  filter(!Alter == "99 Jahre und mehr") %>%
+  filter(Geschlecht=="Frau") %>%
+  mutate(Alter = substr(Alter,1, 2),
+         Alter = as.numeric(Alter)) %>%
+  filter(Alter >29 & Alter < 50) %>%
+  group_by(Year) %>%
+  mutate(population = sum(population)) %>%
+  ungroup() %>%
+  distinct(Year, .keep_all=TRUE) %>%
+  select(Year, Geschlecht,population) %>%
+  mutate(Alter="30-49") 
+
 # data_tmp_t <- data.frame(Year=rep(seq(1871,2022,1),11), population=rep(NA,1672),Month=rep(seq(2,12,1),152),
 #                          Alter=rep("Alter - Total", 1672), Geschlecht=rep("Geschlecht - Total", 1672)) %>%
 #   mutate(Year = as.factor(Year))
@@ -102,16 +142,19 @@ data_pop_rep_women <- read.xlsx("data/population.xlsx") %>%
 #                          Alter=rep("15-49", 1672), Geschlecht=rep("Frau", 1672)) %>%
 #   mutate(Year = as.factor(Year))
 
-pop_month_total <- data_pop_total 
-# %>%
-#   mutate(Month=1) 
+pop_month_total <- data_pop_total %>%
+  mutate(Canton ="Switzerland",
+         Citizenship="total")
+
   # full_join(data_tmp_t) %>%
   # arrange(Year, Month) %>%
   # mutate(pop.monthly = round(zoo::na.approx(population, na.rm=FALSE),0),
   #        pop.monthly = ifelse(Year==2022 ,8815385, pop.monthly))
 
 
-pop_month_women <- data_pop_rep_women 
+pop_month_women <- rbind(data_pop_rep_women,data_pop_rep_women30, data_pop_rep_women30_49) %>%
+  mutate(Canton ="Switzerland",
+         Citizenship="total")
 # %>%
 #   mutate(Month=1) 
   # full_join(data_tmp_w) %>%
@@ -125,7 +168,8 @@ data_pop <- rbind(pop_month_total, pop_month_women) %>%
   full_join(data_pop_language)
        
 data_total <- data_birth %>%
-  full_join(data_pop)
+  full_join(data_pop) %>%
+  select(-birth)
 
 write.xlsx( data_total,"data/data_total.xlsx")
 

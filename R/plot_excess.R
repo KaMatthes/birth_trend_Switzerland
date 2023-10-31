@@ -9,7 +9,7 @@ function_plot_expected <- function(Sex, Title) {
 }
 
 else if(Sex=="Frau"){
-load("data/expected_birth_inla_month_Frau.RData")
+load("data/expected_birth_inla_month_total_birth_Frau.RData")
 
 }
 
