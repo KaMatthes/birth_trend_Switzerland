@@ -1,10 +1,10 @@
 function_plot_expected <- function(group_data, pop_group, Title) {
   
 
-    # load("data/predicted_birth_inla_monthtotal_birth_Geschlecht - Total.RData")
+  load("data/predicted_birth_inla_monthtotal_birth_Geschlecht - Total.RData")
   
   
-  load("data/predicted_birth_inla_monthtotal_birth_Frau.RData")
+  # load("data/predicted_birth_inla_monthtotal_birth_Frau.RData")
     
     dat.exp <-  fitted_birth %>%
       mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
@@ -85,7 +85,7 @@ function_plot_expected <- function(group_data, pop_group, Title) {
     # 
 
   
-  cowplot::save_plot(paste0("output/plot_birth_predicted_pop_15_49.pdf"),plot_birth ,base_height=10,base_width=15)
+  cowplot::save_plot(paste0("output/plot_birth_predicted.pdf"),plot_birth ,base_height=10,base_width=15)
   
 }
 
