@@ -9,7 +9,7 @@ data_birth_g <- read.xlsx("data/birth_count_per_subgroup_1987_2022.xlsx",detectD
 
 
 data_birth_1871 <- read.xlsx("data/FSO_published_livebriths_per_months_1871_2023.xlsx",detectDates = TRUE) %>%
-  filter(Year <1987) %>%
+  filter(Year <1987 | Year==2023) %>%
   mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
          Year = as.factor(Year)) %>%
   select(-Count_IEM) %>%
@@ -169,7 +169,8 @@ data_pop <- rbind(pop_month_total, pop_month_women) %>%
        
 data_total <- data_birth %>%
   full_join(data_pop) %>%
-  select(-birth)
+  select(-birth) %>%
+  mutate(birth_ratio = males/females)
 
 write.xlsx( data_total,"data/data_total.xlsx")
 

@@ -16,7 +16,7 @@ function_inla_total <- function(varBirth,varPop,Year_max, Year_min,pop_group, Ci
            denominator = eval(substitute(varPop)))
   
   
-  year_smooth <- 5
+  year_smooth <- 6
   year_from <- min(dat.excess$Year)
   year_reg <- year_from + year_smooth
   
@@ -138,35 +138,33 @@ function_inla_total <- function(varBirth,varPop,Year_max, Year_min,pop_group, Ci
   expected_birth <- expected_birth %>%
     bind_rows(., .id = "column_label")
   
-  write.xlsx( expected_birth,paste0("data/expected_birth_inla_monthp_",varBirth,"_",pop_group,".xlsx"), rowNames=FALSE, overwrite = TRUE)
-  save( expected_birth,file=paste0("data/expected_birth_inla_monthp_",varBirth,"_",pop_group,".RData"))
+  write.xlsx( expected_birth,paste0("data/expected_birth_inla_month_",varBirth,"_",pop_group,".xlsx"), rowNames=FALSE, overwrite = TRUE)
+  save( expected_birth,file=paste0("data/expected_birth_inla_month_",varBirth,"_",pop_group,".RData"))
 }
 
-function_inla_total(varBirth="parity_1",varPop="total_birth",Year_max=2022, Year_min=2005,pop_group="Geschlecht - Total", CitGroup="total", CanGroup="Switzerland", AgeGroup = "Alter - Total")
-function_inla_total(varBirth="parity_sup_1",varPop="total_birth",Year_max=2022, Year_min=2005,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
+function_inla_total(varBirth="parity_1",varPop="population",Year_max=2022, Year_min=2012,pop_group="Geschlecht - Total", CitGroup="total", CanGroup="Switzerland", AgeGroup = "Alter - Total")
+function_inla_total(varBirth="parity_sup_1",varPop="population",Year_max=2022, Year_min=2012,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
 
-function_inla_total(varBirth="single_birth",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
-function_inla_total(varBirth="multiple_birth",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
+# function_inla_total(varBirth="single_birth",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
+# function_inla_total(varBirth="multiple_birth",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
 
-function_inla_total(varBirth="females",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
-function_inla_total(varBirth="males",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
-
-
-function_inla_total(varBirth="total_birth",varPop="population",Year_max=2022, Year_min=1871,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
-function_inla_total(varBirth="total_birth",varPop="population",Year_max=2022, Year_min=1871,pop_group="Frau",CitGroup="total", CanGroup="Switzerland",AgeGroup = "15-49")
+# function_inla_total(varBirth="females",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
+# function_inla_total(varBirth="males",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
 
 
-function_inla_total(varBirth="mat_age_below_30",varPop="population",Year_max=2022, Year_min=1987,pop_group="Frau", CitGroup="total", CanGroup="Switzerland",AgeGroup = "15-29")
-function_inla_total(varBirth="mat_age_above_or_eq_30",varPop="population",Year_max=2022, Year_min=1987,pop_group="Frau",CitGroup="total", CanGroup="Switzerland",AgeGroup = "30-49")
+function_inla_total(varBirth="total_birth",varPop="population",Year_max=2023, Year_min=2012,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
+# function_inla_total(varBirth="total_birth",varPop="population",Year_max=2022, Year_min=1871,pop_group="Frau",CitGroup="total", CanGroup="Switzerland",AgeGroup = "15-49")
 
 
-function_inla_total(varBirth="german_romansh",varPop="population",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="German",AgeGroup = "Alter - Total")
-function_inla_total(varBirth="french",varPop="population",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="French",AgeGroup = "Alter - Total")
-function_inla_total(varBirth="italy",varPop="population",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Italian",AgeGroup = "Alter - Total")
-
-function_inla_total(varBirth="swiss",varPop="population",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="Switzerland", CanGroup="Switzerland",AgeGroup = "Alter - Total")
-function_inla_total(varBirth="non_swiss",varPop="population",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="Foreign country", CanGroup="Switzerland",AgeGroup = "Alter - Total")
+function_inla_total(varBirth="mat_age_below_30",varPop="population",Year_max=2022, Year_min=2012,pop_group="Geschlecht - Total", CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
+function_inla_total(varBirth="mat_age_above_or_eq_30",varPop="population",Year_max=2022, Year_min=2012,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
 
 
+# function_inla_total(varBirth="german_romansh",varPop="population",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="German",AgeGroup = "Alter - Total")
+# function_inla_total(varBirth="french",varPop="population",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="French",AgeGroup = "Alter - Total")
+# function_inla_total(varBirth="italy",varPop="population",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Italian",AgeGroup = "Alter - Total")
+# 
+# function_inla_total(varBirth="swiss",varPop="population",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="Switzerland", CanGroup="Switzerland",AgeGroup = "Alter - Total")
+# function_inla_total(varBirth="non_swiss",varPop="population",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="Foreign country", CanGroup="Switzerland",AgeGroup = "Alter - Total")
 
 

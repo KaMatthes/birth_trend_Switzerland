@@ -55,30 +55,30 @@ function_plot_expected <- function(group_data, pop_group, Title) {
         axis.title.y  = element_text(size=20),
         plot.title = element_text(size=25))
     
-    # plot_excess <- ggplot() +
-    #   geom_col(data= dat.exp,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
-    #   scale_x_date(labels = date_format("%Y"), breaks = date_breaks("1 year")) +
-    #   scale_y_continuous(labels = scales::percent) +
-    #   scale_fill_manual("",
-    #                     breaks=c("non-significant","significant"),
-    #                     values =c("grey","red")) +
-    #   xlab("Year")+
-    #   ylab("Relatitve differences")+
-    #   # ggtitle(Title) +
-    #   theme_bw()+
-    #   #theme_light(base_size = 16)+
-    #   theme_bw() +
-    #   theme(
-    #     axis.text.y = element_text(size=20),
-    #     # legend.position = c(0.1,0.1),
-    #     legend.position = "bottom",
-    #     legend.text=element_text(size=16),
-    #     # legend.key.size = unit(3.5, 'cm'),
-    #     # legend.spacing.x = unit(3.5, 'cm'),
-    #     axis.text.x = element_text(size=20),
-    #     axis.title.x  = element_text(size=20),
-    #     axis.title.y  = element_text(size=20),
-    #     plot.title = element_text(size=20))
+    plot_excess <- ggplot() +
+      geom_col(data= dat.exp,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
+      scale_x_date(labels = date_format("%Y"), breaks = date_breaks("1 year")) +
+      scale_y_continuous(labels = scales::percent) +
+      scale_fill_manual("",
+                        breaks=c("non-significant","significant"),
+                        values =c("grey","red")) +
+      xlab("Year")+
+      ylab("Relatitve differences")+
+      # ggtitle(Title) +
+      theme_bw()+
+      #theme_light(base_size = 16)+
+      theme_bw() +
+      theme(
+        axis.text.y = element_text(size=20),
+        # legend.position = c(0.1,0.1),
+        legend.position = "bottom",
+        legend.text=element_text(size=16),
+        # legend.key.size = unit(3.5, 'cm'),
+        # legend.spacing.x = unit(3.5, 'cm'),
+        axis.text.x = element_text(size=20),
+        axis.title.x  = element_text(size=20),
+        axis.title.y  = element_text(size=20),
+        plot.title = element_text(size=20))
     # 
     # plot_together <- cowplot::plot_grid(plot_birth,plot_excess,
     #                                     ncol=1, nrow=2, align="hv")

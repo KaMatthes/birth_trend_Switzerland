@@ -384,8 +384,8 @@ plot_together <- cowplot::plot_grid(plot_birth,plot_excess,
   
 }
 
-function_plot_expected(group_data="parity_1",pop_group="total",Title="Parity = 1")
-function_plot_expected(group_data="parity_sup_1",pop_group="total",Title="Parity > 1")
+function_plot_expected(group_data="parity_1",pop_group="pop",Title="Parity = 1")
+function_plot_expected(group_data="parity_sup_1",pop_group="pop",Title="Parity > 1")
 
 function_plot_expected(group_data="single_birth",pop_group="total",Title="Single birth")
 function_plot_expected(group_data="multiple_birth",pop_group="total",Title="Multiple birth")

@@ -141,6 +141,4 @@ function_inla_total <- function(varBirth,varPop,Year_max, Year_pre, Year_min,pop
 
 function_inla_total(varBirth="total_birth",varPop="population",Year_max=2022, Year_min=2016,Year_pre=2020,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
 
-function_inla_total(varBirth="total_birth",varPop="population",Year_max=2022, Year_min=2016,Year_pre=2020,pop_group="Frau",CitGroup="total", CanGroup="Switzerland",AgeGroup = "15-49")
-
 
