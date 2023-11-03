@@ -107,7 +107,7 @@ plot_birth <- ggplot()+
   geom_ribbon(data=dat.birth,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=0.5) +
   geom_line(data=dat.birth, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
   geom_line(data=dat.birth, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
-  annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+  annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-01-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   annotate("rect",xmin=ymd("2022-09-01"),xmax=ymd("2023-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
 
@@ -146,7 +146,7 @@ plot_birth <- ggplot()+
         plot.title = element_text(size=20))
 
 plot_excess_birth <- ggplot() +
-  annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+  annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-01-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   annotate("rect",xmin=ymd("2022-09-01"),xmax=ymd("2023-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   # annotate("text",x=ymd("2021-01-01"),y=7,label="first wave",angle = 90, size=4) +
