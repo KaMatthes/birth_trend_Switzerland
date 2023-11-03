@@ -1,23 +1,19 @@
 
-function_inla_total <- function(varBirth,varPop,Year_max, Year_pre, Year_min,pop_group, CitGroup, CanGroup, AgeGroup) {
+function_inla_total <- function(Year_max, Year_min) {
   
-  load("data/data_total.RData")
+  load("data/data_conception.RData")
   
-  dat.excess <- data_total %>%
-    filter(Geschlecht==pop_group) %>%
-    filter(Citizenship==CitGroup) %>%
-    filter(Canton== CanGroup) %>%
-    filter(Alter==  AgeGroup) %>%
-    select(eval(substitute(varBirth)),Year, Month,eval(substitute(varPop))) %>%
-    mutate(Year=as.numeric(as.character(Year)),
-           birth = ymd(paste0(Year,"-", Month,"-01")))%>%
+  dat.excess <- data_conception %>%
+    mutate(Year = as.numeric(Year)) %>%
     filter(Year >=Year_min & Year <=Year_max ) %>%
-    rename(birth_var = eval(substitute(varBirth)),
-           denominator = eval(substitute(varPop))) %>%
-    mutate(birth_pre =birth_var,
-           birth_pre = ifelse(Year > Year_pre, NA, birth_pre))
+    rename(birth_var = total_birth,
+           denominator = population)
   
-
+  
+  year_smooth <- 6
+  year_from <- min(dat.excess$Year)
+  year_reg <- year_from + year_smooth
+  
   
   control.family <- inla.set.control.family.default()
   
@@ -30,7 +26,7 @@ function_inla_total <- function(varBirth,varPop,Year_max, Year_pre, Year_min,pop
   # # f(timeID, model='seasonal',season.length=12)
   
 
-  formula <- birth_pre~ 1 + offset(log(denominator))  +
+  formula <- birth_var~ 1 + offset(log(denominator))  +
     timeID +
     as.factor(MonthID2) +
     f(timeID2, model='rw1',scale.model = T,cyclic = TRUE, hyper=hyper.iid)
@@ -42,11 +38,11 @@ function_inla_total <- function(varBirth,varPop,Year_max, Year_pre, Year_min,pop
   #   f(seasID, model='seasonal', season.length =12) +
   #   f(timeID, model='rw1',scale.model = T,cyclic = TRUE, hyper=hyper.iid) 
   
-  # expected_birth <- list()
+  expected_birth <- list()
   
-  # for (YEAR in year_reg:Year_max){
-  #   
-  #   print(YEAR)
+  for (YEAR in year_reg:Year_max){
+    
+    print(YEAR)
     
     # if (YEAR==Year_Pan) {
     #   reg_data <-  dat.excess %>%
@@ -66,8 +62,8 @@ function_inla_total <- function(varBirth,varPop,Year_max, Year_pre, Year_min,pop
    
     
       reg_data <-  dat.excess %>% 
-        # filter(Year >= YEAR+1 - year_smooth & Year < YEAR+1) %>%
-        # mutate(birth_var =ifelse (Year ==YEAR, NA,birth_var)) %>% 
+        filter(Year >= YEAR+1 - year_smooth & Year < YEAR+1) %>%
+        mutate(birth_var =ifelse (Year ==YEAR, NA,birth_var)) %>% 
         # filter(!Year == Year_Pan)  %>% 
         # filter(!Year==1918) %>%
         arrange(Year, Month) %>%
@@ -112,13 +108,14 @@ function_inla_total <- function(varBirth,varPop,Year_max, Year_pre, Year_min,pop
     # Add to the data and save
     Data= cbind(reg_data,dM)
     
-    fitted_birth <- Data %>%
+    mean.samples <- Data %>%
       select(starts_with("V"), "Month", "Year") %>%
       rowwise(Month) %>%
       mutate(fit = median(c_across(V1:V1000)),
              LL = quantile(c_across(V1:V1000), probs= 0.025),
              UL = quantile(c_across(V1:V1000), probs= 0.975)) %>%
       select(Month, fit, LL, UL, Year) %>%
+      filter(Year==YEAR) %>%
       arrange(Year, Month) %>%
       left_join(dat.excess, by=c("Year", "Month"))
     # 
@@ -127,18 +124,16 @@ function_inla_total <- function(varBirth,varPop,Year_max, Year_pre, Year_min,pop
     # write.xlsx( expected_birth,paste0("data/expected_death_inla_month",Year_Pan,".xlsx"), rowNames=FALSE, overwrite = TRUE)
     # save( expected_birth,file=paste0("data/expected_death_inla_month",Year_Pan,".RData"))
     
-  #   expected_birth[[YEAR]] <-  mean.samples
-  #   expected_birth <- expected_birth[-which(sapply( expected_birth, is.null))] 
-  #   
-  # 
-  # expected_birth <- expected_birth %>%
-  #   bind_rows(., .id = "column_label")
+    expected_birth[[YEAR]] <-  mean.samples
+    expected_birth <- expected_birth[-which(sapply( expected_birth, is.null))] 
+    
+  }
   
-  write.xlsx( fitted_birth,paste0("data/predicted_birth_inla_month",varBirth,"_",pop_group,".xlsx"), rowNames=FALSE, overwrite = TRUE)
-  save( fitted_birth,file=paste0("data/predicted_birth_inla_month",varBirth,"_",pop_group,".RData"))
+  expected_birth <- expected_birth %>%
+    bind_rows(., .id = "column_label")
+  
+  write.xlsx( expected_birth,paste0("data/expected_conception_inla_month.xlsx"), rowNames=FALSE, overwrite = TRUE)
+  save( expected_birth,file=paste0("data/expected_conception_inla_month.RData"))
 }
 
-
-function_inla_total(varBirth="total_birth",varPop="population",Year_max=2023, Year_min=2016,Year_pre=2020,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
-
-
+function_inla_total(Year_max=2022, Year_min=2010)

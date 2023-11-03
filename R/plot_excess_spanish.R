@@ -1,6 +1,5 @@
 function_plot_expected <- function(group_data, pop_group, Title) {
  
-  if(group_data=="total_birth"){
     load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
     
     dat.exp <- expected_birth %>%
@@ -13,36 +12,28 @@ function_plot_expected <- function(group_data, pop_group, Title) {
              rel_excess_birth = excess_birth/fit*100,
              significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"non-significant","significant"),
              significant_dummy = as.factor( significant_dummy)) %>%
-      filter(Year > 1912 & Year < 1921)
-    
-  }
+      filter(Year > 1911 & Year < 1923)
   
-  else if(group_data=="total_birth_females"){
-    load("data/expected_birth_inla_month_total_birth_Frau.RData")
-    
-    dat.exp <- expected_birth %>%
-      mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
-             birth_inc = birth_var/denominator*10000,
-             fit_inc = fit/denominator*10000,
-             LL_inc = LL/denominator *10000,
-             UL_inc = UL/denominator*10000, 
-             excess_birth = birth_var-fit,
-             rel_excess_birth = excess_birth/fit*100,
-             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"non-significant","significant"),
-             significant_dummy = as.factor( significant_dummy)) %>%
-      filter(Year > 1912 & Year < 1921)
-    
-  }
-  
-
+ 
 
     plot_birth <- ggplot()+
-      geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=0.3) +
+      annotate("rect",xmin=ymd("1915-05-01"),xmax=ymd("1915-06-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+      annotate("rect",xmin=ymd("1919-05-01"),xmax=ymd("1919-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+      # annotate("rect",xmin=ymd("1919-06-01"),xmax=ymd("1919-09-01"),ymin=-Inf,ymax=Inf,alpha=0.8,fill="indianred1") +
+      # annotate("text",x=ymd("1919-01-01"),y=25,label="\"Spanish flu\"",angle = 90, size=6) +
+      annotate("rect",xmin=ymd("1920-09-01"),xmax=ymd("1920-11-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+    
+      geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=0.5) +
       # geom_line(data=dat.exp,aes(x=birth, y=LL_inc, col="Interval"),linetype=1, alpha=0.3) +
       # geom_line(data=dat.exp,aes(x=birth, y=UL_inc, col="Interval"),linetype=1, alpha=0.3) +
-      geom_line(data=dat.exp, aes(x=birth, y=birth_inc, col="births"),lwd=1) +
+      geom_line(data=dat.exp, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
       geom_line(data=dat.exp, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
-      scale_x_date(labels = date_format("%Y"), breaks = date_breaks("1 year")) +
+      annotate("text",x=ymd("1915-05-15"),y=25,label="Begin first world war",angle = 90, size=6) +
+      annotate("text",x=ymd("1919-07-01"),y=23,label="End first world war/\"Spanish flu\"",angle = 90, size=6) +
+      annotate("text",x=ymd("1920-10-01"),y=23,label="\"Spanish flu\"-later strong wave",angle = 90, size=6) +
+      scale_x_date(labels = date_format("%Y"), 
+                   breaks = date_breaks("1 year"),
+                   limits =c(min(ymd("1912-01-01")), max(ymd("1922-01-01")))) +
       # coord_cartesian(ylim=c(0, 50)) +
       ggtitle(Title) +
       # xlim(1910, 1968) +
@@ -50,9 +41,9 @@ function_plot_expected <- function(group_data, pop_group, Title) {
       # ylab("Births per 10'000 inhabitants")+
       ylab("Births per 10'000 inhabitants")+
       scale_color_manual("",
-                         breaks=c("fit","births"),
-                         labels=c("Expected birth", "Observed Birth"),
-                         values=c( "grey40","red", "grey"))+
+                         breaks=c("births","fit"),
+                         labels=c("Observed births", "Expected births" ),
+                         values=c("red", "grey40"))+
       
       scale_fill_manual("",
                         breaks=c("Interval"),
@@ -67,17 +58,22 @@ function_plot_expected <- function(group_data, pop_group, Title) {
         # legend.key.size = unit(3.5, 'cm'),
         # legend.spacing.x = unit(3.5, 'cm'),
         axis.text.x = element_text(size=20),
-        axis.title.x  = element_text(size=20),
+        axis.title.x  = element_blank(),
         axis.title.y  = element_text(size=20),
-        plot.title = element_text(size=25))
+        plot.title = element_text(size=20))
     
     plot_excess <- ggplot() +
       geom_col(data= dat.exp,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
-      scale_x_date(labels = date_format("%Y"), breaks = date_breaks("1 year")) +
+      annotate("rect",xmin=ymd("1915-05-01"),xmax=ymd("1915-06-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+      annotate("rect",xmin=ymd("1919-05-01"),xmax=ymd("1919-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+      annotate("rect",xmin=ymd("1920-09-01"),xmax=ymd("1920-11-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+      scale_x_date(labels = date_format("%Y"), 
+                   breaks = date_breaks("1 year"),
+                   limits =c(min(ymd("1912-01-01")), max(ymd("1922-01-01")))) +
       scale_y_continuous(labels = scales::percent) +
       scale_fill_manual("",
-                        breaks=c("non-significant","significant"),
-                        values =c("grey","red")) +
+                        breaks=c("significant","non-significant"),
+                        values =c("red","grey")) +
       xlab("Year")+
       ylab("Relatitve differences")+
       # ggtitle(Title) +
@@ -97,15 +93,14 @@ function_plot_expected <- function(group_data, pop_group, Title) {
         plot.title = element_text(size=20))
     
     plot_together <- cowplot::plot_grid(plot_birth,plot_excess,
-                                        ncol=1, nrow=2, align="hv")
+                                        ncol=1, nrow=2,rel_heights = c(1,.7), align="hv")
     
-
+  
   
   cowplot::save_plot(paste0("output/plot_birth_1918_",group_data,".pdf"),plot_together ,base_height=12,base_width=15)
   
 }
 
 function_plot_expected(group_data="total_birth",pop_group="pop",Title="Total population")
-function_plot_expected(group_data="total_birth_females",pop_group="pop",Title="Population women aged 15-49")
 
 
