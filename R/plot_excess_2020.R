@@ -29,17 +29,26 @@ function_plot_expected <- function(group_data, Title) {
     load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
   }
   
-  # else if(group_data=="total_birth_females"){
-  #   load("data/expected_birth_inla_month_total_birth_Frau.RData")
-  #   }
-  # 
+  else if(group_data=="total_birth_females"){
+    load("data/expected_birth_inla_month_total_birth_Frau.RData")
+    }
+
   else if(group_data=="mat_age_below_30"){
     load("data/expected_birth_inla_month_mat_age_below_30_Geschlecht - Total.RData")
   }
   
   else if(group_data=="mat_age_above_or_eq_30"){
     load("data/expected_birth_inla_month_mat_age_above_or_eq_30_Geschlecht - Total.RData")
-    }
+  }
+  
+  
+  else if(group_data=="mat_age_below_30_pop_women_15_29"){
+    load("data/expected_birth_inla_month_mat_age_below_30_Frau.RData")
+  }
+  
+  else if(group_data=="mat_age_above_or_eq_30_pop_women_30_49"){
+    load("data/expected_birth_inla_month_mat_age_above_or_eq_30_Frau.RData")
+  }
   
 #   else if(group_data=="german_romansh"){
 #     load("data/expected_birth_inla_month_german_romansh_Geschlecht - Total.RData")
@@ -95,6 +104,11 @@ plot_birth <- ggplot()+
   # annotate("text",x=ymd("2021-08-01"),y=7,label="Covid-19 - second wave",angle = 90, size=4) +
   # annotate("text",x=ymd("2022-12-01"),y=6.9,label="Covid-19 - Omicron wave",angle = 90, size=4) +
 
+  # Total birth women
+  annotate("text",x=ymd("2021-01-01"),y=35,label="Covid-19 - first wave",angle = 90, size=4) +
+  annotate("text",x=ymd("2021-08-01"),y=35,label="Covid-19 - second wave",angle = 90, size=4) +
+  annotate("text",x=ymd("2022-12-01"),y=35,label="Covid-19 - Omicron wave",angle = 90, size=4) +
+  
   
   ## aparity == 1
   # annotate("text",x=ymd("2021-01-01"),y=3.5,label="Covid-19 - first wave",angle = 90, size=4) +
@@ -112,10 +126,10 @@ plot_birth <- ggplot()+
   # annotate("text",x=ymd("2021-08-01"),y=2.2,label="Covid-19 - first wave",angle = 90, size=4) +
   # annotate("text",x=ymd("2022-12-01"),y=2.2,label="Covid-19 - Omicron wave",angle = 90, size=4)+
 
-  # age > 30
-  annotate("text",x=ymd("2021-01-01"),y=5.3,label="Covid-19 - Second wave",angle = 90, size=4) +
-  annotate("text",x=ymd("2021-08-01"),y=5.3,label="Covid-19 - first wave",angle = 90, size=4) +
-  annotate("text",x=ymd("2022-12-01"),y=5.3,label="Covid-19 - Omicron wave",angle = 90, size=4)+
+  # # age > 30
+  # annotate("text",x=ymd("2021-01-01"),y=5.3,label="Covid-19 - Second wave",angle = 90, size=4) +
+  # annotate("text",x=ymd("2021-08-01"),y=5.3,label="Covid-19 - first wave",angle = 90, size=4) +
+  # annotate("text",x=ymd("2022-12-01"),y=5.3,label="Covid-19 - Omicron wave",angle = 90, size=4)+
 
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
@@ -205,12 +219,17 @@ function_plot_expected(group_data="parity_sup2",Title="Parity > 2")
 # function_plot_expected(group_data="males",pop_group="total",Title="Males")
 
 
-# function_plot_expected(group_data="total_birth_females",pop_group="pop",Title="Population women aged 15-49")
+function_plot_expected(group_data="total_birth_females",Title="Population women aged 15-49")
 
 function_plot_expected(group_data="mat_age_below_30",Title="Births women age < 30 years")
 function_plot_expected(group_data="mat_age_above_or_eq_30",Title=" Births women aged >=30 years")
 
-# 
+
+
+function_plot_expected(group_data="mat_age_below_30_pop_women_15_29",Title="Births women age < 30 years population 15-29")
+function_plot_expected(group_data="mat_age_below_30_pop_women_30_49",Title=" Births women aged >=30 years population 30-49")
+
+
 # function_plot_expected(group_data="german_romansh",pop_group="pop",Title="German")
 # function_plot_expected(group_data="french",pop_group="pop",Title="French")
 # function_plot_expected(group_data="italy",pop_group="pop",Title="Italian")
