@@ -21,7 +21,7 @@ data_birth <- bind_rows(data_birth_g, data_birth_1871) %>%
   select(-Canton, -Citizenship)
 
 data_pop_total <- read.xlsx("data/population.xlsx") %>%
-  gather(.,Year, population, `1860`:`2022`) %>%
+  gather(.,Year, population, `1860`:`2023`) %>%
   filter(Year > 1870) %>%
   filter(Alter == "Alter - Total") %>%
   filter(Geschlecht=="Geschlecht - Total")
@@ -36,8 +36,7 @@ data_pop2 <- read.xlsx("data/Population_1987_2022.xlsx") %>%
   filter(Alter == "Age - total") %>%
   filter(Geschlecht=="Sex - total")  %>%
   mutate(Alter=recode(Alter, "Age - total" = "Alter - Total"),
-         Geschlecht = recode(Geschlecht, "Sex - total" = "Geschlecht - Total"))
-  
+         Geschlecht = recode(Geschlecht, "Sex - total" = "Geschlecht - Total")) 
   
 data_pop_citizen <- data_pop2 %>%
   rename(population= `Population.on.31.December`) %>%
@@ -84,7 +83,7 @@ data_pop_language <- data_pop2 %>%
 
 
 data_pop_rep_women <- read.xlsx("data/population.xlsx") %>%
-  gather(.,Year, population, `1860`:`2022`) %>%
+  gather(.,Year, population, `1860`:`2023`) %>%
   filter(Year > 1870) %>%
   filter(!Alter == "Alter - Total") %>%
   filter(!Alter == "99 Jahre und mehr") %>%
@@ -101,7 +100,7 @@ data_pop_rep_women <- read.xlsx("data/population.xlsx") %>%
 
 
 data_pop_rep_women30 <- read.xlsx("data/population.xlsx") %>%
-  gather(.,Year, population, `1860`:`2022`) %>%
+  gather(.,Year, population, `1860`:`2023`) %>%
   filter(Year > 1870) %>%
   filter(!Alter == "Alter - Total") %>%
   filter(!Alter == "99 Jahre und mehr") %>%
@@ -118,7 +117,7 @@ data_pop_rep_women30 <- read.xlsx("data/population.xlsx") %>%
 
 
 data_pop_rep_women30_49 <- read.xlsx("data/population.xlsx") %>%
-  gather(.,Year, population, `1860`:`2022`) %>%
+  gather(.,Year, population, `1860`:`2023`) %>%
   filter(Year > 1870) %>%
   filter(!Alter == "Alter - Total") %>%
   filter(!Alter == "99 Jahre und mehr") %>%

@@ -19,7 +19,8 @@ load("data/data_total.RData")
     rename(birth_var = eval(substitute(varBirth)),
            denominator = eval(substitute(varPop))) %>%
     mutate(birth = ymd(paste0(Year,"-", Month,"-01"))) %>%
-    filter(Year>2015)
+    filter(Year>2015) %>%
+    distinct(Year, Month, .keep_all = TRUE)
   
 
 plot_trend <- ggplot() +

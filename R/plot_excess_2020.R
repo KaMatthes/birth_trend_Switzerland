@@ -65,17 +65,17 @@ function_plot_expected <- function(group_data, Title) {
 #   
 #   }
 #   
-#   else if(group_data=="swiss"){
-#     load("data/expected_birth_inla_month_swiss_Geschlecht - Total.RData")
-#   
-#     
-#   }
-#   
-#   else if(group_data=="non_swiss"){
-#     load("data/expected_birth_inla_month_non_swiss_Geschlecht - Total.RData")
-#     
-#   }
-#   
+  else if(group_data=="swiss"){
+    load("data/expected_birth_inla_month_swiss_Geschlecht - Total.RData")
+
+
+  }
+
+  else if(group_data=="non_swiss"){
+    load("data/expected_birth_inla_month_non_swiss_Geschlecht - Total.RData")
+
+  }
+
   
   dat.exp <- expected_birth %>%
     mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
@@ -87,7 +87,8 @@ function_plot_expected <- function(group_data, Title) {
            rel_excess_birth = excess_birth/fit*100,
            significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"non-significant","significant"),
            significant_dummy = as.factor( significant_dummy)) %>%
-    filter(Year >2015)
+    filter(Year >2015)  %>%
+    distinct(Year, Month, .keep_all = TRUE)
   
 plot_birth <- ggplot()+
   geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=0.5) +
@@ -105,9 +106,9 @@ plot_birth <- ggplot()+
   # annotate("text",x=ymd("2022-12-01"),y=6.9,label="Covid-19 - Omicron wave",angle = 90, size=4) +
 
   # Total birth women
-  annotate("text",x=ymd("2021-01-01"),y=35,label="Covid-19 - first wave",angle = 90, size=4) +
-  annotate("text",x=ymd("2021-08-01"),y=35,label="Covid-19 - second wave",angle = 90, size=4) +
-  annotate("text",x=ymd("2022-12-01"),y=35,label="Covid-19 - Omicron wave",angle = 90, size=4) +
+  # annotate("text",x=ymd("2021-01-01"),y=35,label="Covid-19 - first wave",angle = 90, size=4) +
+  # annotate("text",x=ymd("2021-08-01"),y=35,label="Covid-19 - second wave",angle = 90, size=4) +
+  # annotate("text",x=ymd("2022-12-01"),y=35,label="Covid-19 - Omicron wave",angle = 90, size=4) +
   
   
   ## aparity == 1
@@ -234,6 +235,6 @@ function_plot_expected(group_data="mat_age_below_30_pop_women_30_49",Title=" Bir
 # function_plot_expected(group_data="french",pop_group="pop",Title="French")
 # function_plot_expected(group_data="italy",pop_group="pop",Title="Italian")
 # 
-# function_plot_expected(group_data="swiss",pop_group="pop",Title="Swiss")
-# function_plot_expected(group_data="non_swiss",pop_group="pop",Title="Non Swiss")
-# 
+function_plot_expected(group_data="swiss",Title="Swiss")
+function_plot_expected(group_data="non_swiss",Title="Non Swiss")
+

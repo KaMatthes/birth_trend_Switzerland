@@ -1,11 +1,11 @@
 function_plot_expected <- function(group_data, pop_group, Title) {
   
 
-  load("data/predicted_birth_inla_monthtotal_birth_Geschlecht - Total.RData")
+  # load("data/predicted_birth_inla_monthtotal_birth_Geschlecht - Total.RData")
+  # 
   
-  
-  # load("data/predicted_birth_inla_monthtotal_birth_Frau.RData")
-    
+  load("data/predicted_birth_inla_monthtotal_birth_Frau.RData")
+  #   
     dat.exp <-  fitted_birth %>%
       mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
              birth_pre_inc = birth_pre/denominator*10000,
@@ -16,7 +16,8 @@ function_plot_expected <- function(group_data, pop_group, Title) {
              excess_birth = birth_inc-fit_inc,
              rel_excess_birth = excess_birth/fit_inc*100,
              significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"non-significant","significant"),
-             significant_dummy = as.factor( significant_dummy))
+             significant_dummy = as.factor( significant_dummy)) %>%
+      distinct(Year, Month, .keep_all = TRUE)
     
  
 
@@ -24,9 +25,21 @@ function_plot_expected <- function(group_data, pop_group, Title) {
       annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
       annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
       annotate("rect",xmin=ymd("2022-09-01"),xmax=ymd("2023-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-      annotate("text",x=ymd("2021-01-01"),y=7,label="Covid-19 - first wave",angle = 90, size=4) +
-      annotate("text",x=ymd("2021-08-01"),y=7,label="Covid-19 - second wave",angle = 90, size=4) +
-      annotate("text",x=ymd("2022-12-01"),y=6.9,label="Covid-19 - Omicron wave",angle = 90, size=4) +
+      
+      # total
+      # annotate("text",x=ymd("2021-01-01"),y=7,label="Covid-19 - first wave",angle = 90, size=4) +
+      # annotate("text",x=ymd("2021-08-01"),y=7,label="Covid-19 - second wave",angle = 90, size=4) +
+      # annotate("text",x=ymd("2022-12-01"),y=6.9,label="Covid-19 - Omicron wave",angle = 90, size=4) +
+      # 
+      # 
+      
+
+      #Total birth women
+      annotate("text",x=ymd("2021-01-01"),y=35,label="Covid-19 - first wave",angle = 90, size=4) +
+      annotate("text",x=ymd("2021-08-01"),y=35,label="Covid-19 - second wave",angle = 90, size=4) +
+      annotate("text",x=ymd("2022-12-01"),y=35,label="Covid-19 - Omicron wave",angle = 90, size=4) +
+
+      
       geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=0.5) +
       # geom_line(data=dat.exp,aes(x=birth, y=LL_inc, col="Interval"),linetype=1, alpha=0.3) +
       # geom_line(data=dat.exp,aes(x=birth, y=UL_inc, col="Interval"),linetype=1, alpha=0.3) +
@@ -94,7 +107,7 @@ function_plot_expected <- function(group_data, pop_group, Title) {
     # 
 
   
-  cowplot::save_plot(paste0("output/plot_birth_predicted.pdf"),plot_birth ,base_height=8,base_width=15)
+  cowplot::save_plot(paste0("output/plot_birth_predicted_women.pdf"),plot_birth ,base_height=8,base_width=15)
   
 }
 
@@ -107,7 +120,8 @@ function_plot_expected <- function(group_data, pop_group, Title) {
 # function_plot_expected(group_data="females",pop_group="total",Title="Females")
 # function_plot_expected(group_data="males",pop_group="total",Title="Males")
 
-function_plot_expected(group_data="total_birth",pop_group="pop",Title="Total births")
+function_plot_expected(Title="Women 15-49")
+function_plot_expected(Title="Total population")
 
 # 
 # function_plot_expected(group_data="mat_age_below_30",pop_group="pop",Title="Birth age < 30 (population women aged 15-29)")
