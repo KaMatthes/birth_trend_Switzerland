@@ -25,12 +25,12 @@ load("data/data_total.RData")
 
 plot_trend <- ggplot() +
   
-  annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+  #annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   # annotate("text",x=ymd("2019-11-01"),y=25,label="Covid-19",angle = 90, size=6) +
   
-  annotate("rect",xmin=ymd("2021-06-01"),xmax=ymd("2021-08-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+  #annotate("rect",xmin=ymd("2021-06-01"),xmax=ymd("2021-08-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   # annotate("text",x=ymd("2020-12-01"),y=25,label="Covid-19 - Second wave",angle = 90, size=6) +
-  annotate("rect",xmin=ymd("2022-09-01"),xmax=ymd("2023-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+  #annotate("rect",xmin=ymd("2022-09-01"),xmax=ymd("2023-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   # annotate("text",x=ymd("2020-12-01"),y=25,label="Covid-19 - Omicron",angle = 90, size=6) +
   geom_line(data=dat.trend, aes(x=birth, y=birth_var, col="births"),lwd=1) +
   
@@ -40,7 +40,7 @@ plot_trend <- ggplot() +
                limits =c(min(ymd("2016-01-01")), max(ymd("2023-12-01")))) +
   # coord_cartesian(ylim=c(0, 50)) +
       ggtitle(Title) +
-      # xlim(1910, 1968) +
+      ylim(0.95, 1.15) +
       xlab("Year") +
       # ylab("Births per 10'000 inhabitants")+
       ylab("Sex ratio males/females")+

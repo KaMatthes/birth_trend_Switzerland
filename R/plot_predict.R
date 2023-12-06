@@ -4,7 +4,8 @@ function_plot_expected <- function(group_data, pop_group, Title) {
   # load("data/predicted_birth_inla_monthtotal_birth_Geschlecht - Total.RData")
   # 
   
-  load("data/predicted_birth_inla_monthtotal_birth_Frau.RData")
+ 
+  load("data/predicted_birth_inla_monthtotal_birth_Geschlecht - Total.RData")
   #   
     dat.exp <-  fitted_birth %>%
       mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
@@ -22,9 +23,11 @@ function_plot_expected <- function(group_data, pop_group, Title) {
  
 
     plot_birth <- ggplot()+
-      annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-      annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-      annotate("rect",xmin=ymd("2022-09-01"),xmax=ymd("2023-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+      annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-10-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("2022-08-01"),xmax=ymd("2022-12-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("2023-03-01"),xmax=ymd("2023-05-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="orange") +
+      annotate("rect",xmin=ymd("2022-04-01"),xmax=ymd("2022-06-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="darkgreen") +
       
       # total
       # annotate("text",x=ymd("2021-01-01"),y=7,label="Covid-19 - first wave",angle = 90, size=4) +
@@ -35,12 +38,14 @@ function_plot_expected <- function(group_data, pop_group, Title) {
       
 
       #Total birth women
-      annotate("text",x=ymd("2021-01-01"),y=35,label="Covid-19 - first wave",angle = 90, size=4) +
-      annotate("text",x=ymd("2021-08-01"),y=35,label="Covid-19 - second wave",angle = 90, size=4) +
-      annotate("text",x=ymd("2022-12-01"),y=35,label="Covid-19 - Omicron wave",angle = 90, size=4) +
+      annotate("text",x=ymd("2021-01-01"),y=6,label="A", size=6) +
+      annotate("text",x=ymd("2021-09-01"),y=6,label="B", size=6) +
+      annotate("text",x=ymd("2022-10-01"),y=6,label="D", size=6) +
+      annotate("text",x=ymd("2023-04-01"),y=6,label="E", size=6) +
+      annotate("text",x=ymd("2022-05-01"),y=6,label="C", size=6) +
 
       
-      geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=0.5) +
+      geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
       # geom_line(data=dat.exp,aes(x=birth, y=LL_inc, col="Interval"),linetype=1, alpha=0.3) +
       # geom_line(data=dat.exp,aes(x=birth, y=UL_inc, col="Interval"),linetype=1, alpha=0.3) +
       geom_line(data=dat.exp, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
@@ -56,13 +61,13 @@ function_plot_expected <- function(group_data, pop_group, Title) {
       ylab("Births per 10'000 inhabitants")+
       scale_color_manual("",
                          breaks=c("births","fit"),
-                         labels=c("Observed births","Predicted births from 2021"),
+                         labels=c("Observed births","Predicted births (from 2021)"),
                          values=c("red",  "grey40"))+
       
       scale_fill_manual("",
                         breaks=c("Interval"),
-                        labels=c("Interval of expected birth"),
-                        values=c( "grey")) +
+                        labels=c("Interval of expected births"),
+                        values=c( "grey90")) +
       theme_bw()+
       #theme_light(base_size = 16)+
       theme(
@@ -107,7 +112,7 @@ function_plot_expected <- function(group_data, pop_group, Title) {
     # 
 
   
-  cowplot::save_plot(paste0("output/plot_birth_predicted_women.pdf"),plot_birth ,base_height=8,base_width=15)
+  cowplot::save_plot(paste0("output/plot_birth_predicted.pdf"),plot_birth ,base_height=8,base_width=15)
   
 }
 
@@ -120,8 +125,7 @@ function_plot_expected <- function(group_data, pop_group, Title) {
 # function_plot_expected(group_data="females",pop_group="total",Title="Females")
 # function_plot_expected(group_data="males",pop_group="total",Title="Males")
 
-function_plot_expected(Title="Women 15-49")
-function_plot_expected(Title="Total population")
+function_plot_expected(Title="Monthly birth rate: Predicted vs. observed")
 
 # 
 # function_plot_expected(group_data="mat_age_below_30",pop_group="pop",Title="Birth age < 30 (population women aged 15-29)")

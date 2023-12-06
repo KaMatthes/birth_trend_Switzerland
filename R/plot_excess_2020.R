@@ -91,19 +91,23 @@ function_plot_expected <- function(group_data, Title) {
     distinct(Year, Month, .keep_all = TRUE)
   
 plot_birth <- ggplot()+
-  geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=0.5) +
+  
       # geom_line(data=dat.exp,aes(x=birth, y=LL_inc, col="Interval"),linetype=1, alpha=0.3) +
       # geom_line(data=dat.exp,aes(x=birth, y=UL_inc, col="Interval"),linetype=1, alpha=0.3) +
+  annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+  annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-10-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+  annotate("rect",xmin=ymd("2022-08-01"),xmax=ymd("2022-12-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+  annotate("rect",xmin=ymd("2023-03-01"),xmax=ymd("2023-05-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="orange") +
+  annotate("rect",xmin=ymd("2022-04-01"),xmax=ymd("2022-06-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="darkgreen") +
+  geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
   geom_line(data=dat.exp, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
   geom_line(data=dat.exp, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
-  annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-  annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-  annotate("rect",xmin=ymd("2022-09-01"),xmax=ymd("2023-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
- 
-  # # Total birth
-  # annotate("text",x=ymd("2021-01-01"),y=7,label="Covid-19 - first wave",angle = 90, size=4) +
-  # annotate("text",x=ymd("2021-08-01"),y=7,label="Covid-19 - second wave",angle = 90, size=4) +
-  # annotate("text",x=ymd("2022-12-01"),y=6.9,label="Covid-19 - Omicron wave",angle = 90, size=4) +
+    # Total birth
+  annotate("text",x=ymd("2021-01-01"),y=6,label="A", size=6) +
+  annotate("text",x=ymd("2021-09-01"),y=6,label="B", size=6) +
+  annotate("text",x=ymd("2022-10-01"),y=6,label="D", size=6) +
+  annotate("text",x=ymd("2023-04-01"),y=6,label="E", size=6) +
+  annotate("text",x=ymd("2022-05-01"),y=6,label="C", size=6) +
 
   # Total birth women
   # annotate("text",x=ymd("2021-01-01"),y=35,label="Covid-19 - first wave",angle = 90, size=4) +
@@ -148,8 +152,8 @@ plot_birth <- ggplot()+
       
       scale_fill_manual("",
                         breaks=c("Interval"),
-                        labels=c("Interval of expected birth"),
-                        values=c( "grey")) +
+                        labels=c("Interval of expected births"),
+                        values=c( "grey90")) +
       theme_bw() +
       theme(
         axis.text.y = element_text(size=20),
@@ -161,20 +165,24 @@ plot_birth <- ggplot()+
         axis.text.x = element_text(size=20),
         axis.title.x  = element_blank(),
         axis.title.y  = element_text(size=20),
-        plot.title = element_text(size=20))
+        plot.title = element_text(size=20),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank())
     
     
     
     plot_excess <- ggplot() +
+      annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-10-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("2022-08-01"),xmax=ymd("2022-12-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("2023-03-01"),xmax=ymd("2023-05-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="orange") +
+      annotate("rect",xmin=ymd("2022-04-01"),xmax=ymd("2022-06-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="darkgreen") +
       geom_col(data= dat.exp,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
-      annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-      annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-      annotate("rect",xmin=ymd("2022-09-01"),xmax=ymd("2023-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("2016-01-01")), max(ymd("2024-01-01")))) +
                    # limits =c(min(ymd("2016-01-01")), max(ymd("2023-01-01")))) +
-      scale_y_continuous(labels = scales::percent) +
+      scale_y_continuous(labels = scales::percent, limits = c(-0.15,0.15)) +
       scale_fill_manual("",
                         breaks=c("significant","non-significant"),
                         values =c("red","grey")) +
@@ -193,7 +201,9 @@ plot_birth <- ggplot()+
         axis.text.x = element_text(size=20),
         axis.title.x  = element_text(size=20),
         axis.title.y  = element_text(size=20),
-        plot.title = element_text(size=20))
+        plot.title = element_text(size=20),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank())
     
     plot_together <- cowplot::plot_grid(plot_birth,plot_excess,
                                         ncol=1, nrow=2,rel_heights = c(1,.7), align="hv")
@@ -205,7 +215,9 @@ plot_birth <- ggplot()+
 
 
 
-function_plot_expected(group_data="total_birth",Title="Total births")
+function_plot_expected(group_data="total_birth",Title="Monthly birth rate: Recent trends")
+
+
 
 function_plot_expected(group_data="parity_1",Title="Parity = 1")
 function_plot_expected(group_data="parity_2",Title="Parity = 2")

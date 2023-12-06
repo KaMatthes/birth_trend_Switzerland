@@ -32,7 +32,7 @@ function_inla_total <- function(varBirth,varPop,Year_max, Year_min,pop_group, Ci
   # # f(timeID, model='seasonal',season.length=12)
   
 
-  formula <- birth_var~ 1 + offset(log(denominator))  +
+  formula <- birth_var ~ 1 + offset(log(denominator))  +
     timeID +
     as.factor(MonthID2) +
     f(timeID2, model='rw1',scale.model = T,cyclic = TRUE, hyper=hyper.iid)
@@ -155,7 +155,7 @@ function_inla_total(varBirth="parity_sup2",varPop="population",Year_max=2022, Ye
 # function_inla_total(varBirth="females",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
 # function_inla_total(varBirth="males",varPop="total_birth",Year_max=2022, Year_min=1987,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
 
-function_inla_total(varBirth="total_birth",varPop="population",Year_max=2023, Year_min=2010,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
+function_inla_total(varBirth="total_birth",varPop="population",Year_max=2023, Year_min=1875,pop_group="Geschlecht - Total",CitGroup="total", CanGroup="Switzerland",AgeGroup = "Alter - Total")
 function_inla_total(varBirth="total_birth",varPop="population",Year_max=2023, Year_min=2010,pop_group="Frau",CitGroup="total", CanGroup="Switzerland",AgeGroup = "15-49")
 
 

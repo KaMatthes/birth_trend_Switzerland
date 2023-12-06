@@ -17,20 +17,20 @@ function_plot_expected <- function(group_data, pop_group, Title) {
  
 
     plot_birth <- ggplot()+
-      annotate("rect",xmin=ymd("1915-05-01"),xmax=ymd("1915-06-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-      annotate("rect",xmin=ymd("1919-05-01"),xmax=ymd("1919-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+      annotate("rect",xmin=ymd("1915-04-01"),xmax=ymd("1915-07-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("1919-05-01"),xmax=ymd("1919-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
       # annotate("rect",xmin=ymd("1919-06-01"),xmax=ymd("1919-09-01"),ymin=-Inf,ymax=Inf,alpha=0.8,fill="indianred1") +
       # annotate("text",x=ymd("1919-01-01"),y=25,label="\"Spanish flu\"",angle = 90, size=6) +
-      annotate("rect",xmin=ymd("1920-09-01"),xmax=ymd("1920-11-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+      annotate("rect",xmin=ymd("1920-09-01"),xmax=ymd("1921-01-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
     
-      geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=0.5) +
+      geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
       # geom_line(data=dat.exp,aes(x=birth, y=LL_inc, col="Interval"),linetype=1, alpha=0.3) +
       # geom_line(data=dat.exp,aes(x=birth, y=UL_inc, col="Interval"),linetype=1, alpha=0.3) +
       geom_line(data=dat.exp, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
       geom_line(data=dat.exp, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
-      annotate("text",x=ymd("1915-05-15"),y=25,label="Begin first world war",angle = 90, size=6) +
-      annotate("text",x=ymd("1919-07-01"),y=23,label="End first world war/\"Spanish flu\"",angle = 90, size=6) +
-      annotate("text",x=ymd("1920-10-01"),y=23,label="\"Spanish flu\"-later strong wave",angle = 90, size=6) +
+      annotate("text",x=ymd("1915-05-15"),y=25.5,label="+9m. Start WW1",angle = 90, size=6) +
+      annotate("text",x=ymd("1919-07-01"),y=25.5,label="+9m. End WW1\n/Spanish flu",lineheight=0.8,angle = 90, size=6) +
+      annotate("text",x=ymd("1920-11-01"),y=26,label="+9m. Strong\nlater wave",lineheight=0.8,angle = 90, size=6) +
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("1912-01-01")), max(ymd("1922-01-01")))) +
@@ -47,8 +47,8 @@ function_plot_expected <- function(group_data, pop_group, Title) {
       
       scale_fill_manual("",
                         breaks=c("Interval"),
-                        labels=c("Interval of expected birth"),
-                        values=c( "grey")) +
+                        labels=c("Interval of expected births"),
+                        values=c( "grey90")) +
       theme_bw() +
       theme(
         axis.text.y = element_text(size=20),
@@ -60,17 +60,19 @@ function_plot_expected <- function(group_data, pop_group, Title) {
         axis.text.x = element_text(size=20),
         axis.title.x  = element_blank(),
         axis.title.y  = element_text(size=20),
-        plot.title = element_text(size=20))
+        plot.title = element_text(size=20),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank())
     
     plot_excess <- ggplot() +
       geom_col(data= dat.exp,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
-      annotate("rect",xmin=ymd("1915-05-01"),xmax=ymd("1915-06-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-      annotate("rect",xmin=ymd("1919-05-01"),xmax=ymd("1919-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-      annotate("rect",xmin=ymd("1920-09-01"),xmax=ymd("1920-11-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
+      annotate("rect",xmin=ymd("1915-04-01"),xmax=ymd("1915-07-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("1919-05-01"),xmax=ymd("1919-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("1920-09-01"),xmax=ymd("1921-01-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("1912-01-01")), max(ymd("1922-01-01")))) +
-      scale_y_continuous(labels = scales::percent) +
+      scale_y_continuous(labels = scales::percent, limits = c(-0.25,0.25)) +
       scale_fill_manual("",
                         breaks=c("significant","non-significant"),
                         values =c("red","grey")) +
@@ -90,7 +92,9 @@ function_plot_expected <- function(group_data, pop_group, Title) {
         axis.text.x = element_text(size=20),
         axis.title.x  = element_text(size=20),
         axis.title.y  = element_text(size=20),
-        plot.title = element_text(size=20))
+        plot.title = element_text(size=20),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank())
     
     plot_together <- cowplot::plot_grid(plot_birth,plot_excess,
                                         ncol=1, nrow=2,rel_heights = c(1,.7), align="hv")
@@ -101,6 +105,6 @@ function_plot_expected <- function(group_data, pop_group, Title) {
   
 }
 
-function_plot_expected(group_data="total_birth",pop_group="pop",Title="Total population")
+function_plot_expected(group_data="total_birth",pop_group="pop",Title="Monthly birth rate vs WW1 & the \"Spanish flu\"")
 
 

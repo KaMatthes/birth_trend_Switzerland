@@ -13,13 +13,12 @@ function_plot_russian <- function(group_data, pop_group, Title) {
              rel_excess_birth = excess_birth/fit*100,
              significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"non-significant","significant"),
              significant_dummy = as.factor( significant_dummy)) %>%
-      filter(Year > 1884 & Year < 1896)
+      filter(Year > 1951 & Year < 1963)
     
-  
     plot_birth <- ggplot()+
       
-      annotate("rect",xmin=ymd("1890-08-01"),xmax=ymd("1890-11-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
-      annotate("text",x=ymd("1890-09-15"),y=28.5,label="+9m. Russian flu",angle = 90, size=6) +
+      annotate("rect",xmin=ymd("1958-06-01"),xmax=ymd("1958-10-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("text",x=ymd("1958-08-01"),y=18,label="+9m. Asian flu",angle = 90, size=6) +
       
       geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
       # geom_line(data=dat.exp,aes(x=birth, y=LL_inc, col="Interval"),linetype=1, alpha=0.3) +
@@ -29,7 +28,7 @@ function_plot_russian <- function(group_data, pop_group, Title) {
     
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
-                   limits =c(min(ymd("1885-01-01")), max(ymd("1895-01-01")))) +
+                   limits =c(min(ymd("1952-01-01")), max(ymd("1962-01-01")))) +
       # coord_cartesian(ylim=c(0, 50)) +
       ggtitle(Title) +
       # xlim(1910, 1968) +
@@ -62,11 +61,11 @@ function_plot_russian <- function(group_data, pop_group, Title) {
     
     
     plot_excess <- ggplot() +
-      annotate("rect",xmin=ymd("1890-08-01"),xmax=ymd("1890-11-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("1958-06-01"),xmax=ymd("1958-10-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
       geom_col(data= dat.exp,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
-                   limits =c(min(ymd("1885-01-01")), max(ymd("1895-01-01")))) +
+                   limits =c(min(ymd("1952-01-01")), max(ymd("1962-01-01")))) +
       scale_y_continuous(labels = scales::percent, limits = c(-0.25,0.25)) +
       scale_fill_manual("",
                         breaks=c("significant","non-significant"),
@@ -96,10 +95,10 @@ function_plot_russian <- function(group_data, pop_group, Title) {
                                         ncol=1, nrow=2,rel_heights = c(1,.7), align="hv")
 
   
-  cowplot::save_plot(paste0("output/plot_birth_1890_",group_data,".pdf"),plot_together ,base_height=12,base_width=15)
+  cowplot::save_plot(paste0("output/plot_birth_1957_",group_data,".pdf"),plot_together ,base_height=12,base_width=15)
   
 }
 
-function_plot_russian(group_data="total_birth",pop_group="pop",Title="Monthly birth rate & the \"Russian flu\" 1890")
+function_plot_russian(group_data="total_birth",pop_group="pop",Title="Monthly birth rate & the \"Asian flu\" 1957")
 
 
