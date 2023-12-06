@@ -4,7 +4,7 @@
 
 <br >
 Mathilde le Vu, Katarina L Matthes, Kaspar Staub (2023) preprint: The ups and downs of birth rate in Switzerland 2020 to 2023 in a historical context <i> medRxiv </i> 
-[https://doi.org/10.1371/journal.pone.0289157](https://doi.org/10.1101/2023.12.05.23299432)
+https://doi.org/10.1101/2023.12.05.23299432
 
 ## Data
 
