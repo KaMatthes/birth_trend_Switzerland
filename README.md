@@ -41,8 +41,8 @@ This folder contains all R scripts.
   - 
 ### `data` folder
 
-This folder contains the aggregated birth data and population numbers of total births and subgroups.
-  
+This folder contains the aggregated birth data and the Swiss population figures for total births and subgroups.
+
 ### `output` folder
 
 This folder contains all outputs.
