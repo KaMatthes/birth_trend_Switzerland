@@ -28,21 +28,17 @@ The data is public available via Zenodo:
 
 This folder contains all R scripts.
   
-  - `data.R` : prepares the data for the analysis
-  - `Flu_Exposure.R` : prepares the data for the flu  exposure
-  - `Figure1.R` : code to create Figure 1
-  - `Figure2.R` : code to create Figure 2
-  - `Figure3.R` : code to create Figure 3
-  - `Table1.R`  : code to create Table 1
-  - `Supplement_Figure2.R`  : code to create Supplement Figure 2
-  - `Supplement_Figure3to6.R`  : code to create Supplement Figure 3 to 6
-  - `Supplement_Figure7and9.R`  : code to create Supplement Figure 7 and 9
-  - `Supplement_Figure8.R`  : code to create Supplement Figure 8
-  - `Supplement_Table3.R`  : code to create Supplement Table 3
-  - `Supplement_Table4.R`  : code to create Supplement Table 4
-  - `Supplement_Table5to7.R`  : code to create Supplement Table 5 to 7
-  - `Supplement_Table8.R`  : code to create Supplement Table 8
-  
+  - `excess_birth_subgroups.R` : INLA code of estimated birth and 95 CrI
+  - `birth_predict.R`: INLA code of birth prediction
+  - `plot_predict.R` : code to create figure of birth prediction (Figure 3)
+  - `plot_excess_1890.R` : code to create figure of estimated birth during the flu 1890
+  - `plot_excess_1918.R` : code to create figure of estimated birth during the flu 1918
+  - `plot_excess_1957.R` : code to create figure of estimated birth during the flu 1957
+  - `plot_excess_1969.R` : code to create figure of estimated birth during the flu 1969
+  - `plot_excess_2009.R` : code to create figure of estimated birth during the flu 2009
+  - `plot_excess_2020.R` : code to create figure of estimated birth during the Covid-19
+
+  - 
 ### `data` folder
 
 This folder contains the aggregated birth data and population numbers of total births and subgroups.
