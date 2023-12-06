@@ -41,11 +41,8 @@ plot_conception <- ggplot()+
   scale_x_date(labels = date_format("%Y"), 
                breaks = date_breaks("1 year"),
                limits =c(min(ymd("2016-01-01")), max(ymd("2024-01-01")))) +
-  # limits =c(min(ymd("2016-01-01")), max(ymd("2023-01-01")))) +
   ggtitle("Conception") +
-  # xlim(1910, 1968) +
   xlab("Year") +
-  # ylab("Births per 10'000 inhabitants")+
   ylab("Births per 10'000 inhabitants")+
   scale_color_manual("",
                      breaks=c("births","fit"),
@@ -59,11 +56,8 @@ plot_conception <- ggplot()+
   theme_bw() +
   theme(
     axis.text.y = element_text(size=20),
-    # legend.position = c(0.2,0.2),
     legend.position = "bottom",
     legend.text=element_text(size=16),
-    # legend.key.size = unit(3.5, 'cm'),
-    # legend.spacing.x = unit(3.5, 'cm'),
     axis.text.x = element_text(size=20),
     axis.title.x  = element_blank(),
     axis.title.y  = element_text(size=20),
@@ -74,9 +68,6 @@ plot_excess_conception <- ggplot() +
   annotate("rect",xmin=ymd("2020-03-01"),xmax=ymd("2020-04-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   annotate("rect",xmin=ymd("2020-10-01"),xmax=ymd("2020-12-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   annotate("rect",xmin=ymd("2021-12-01"),xmax=ymd("2022-05-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-  # annotate("text",x=ymd("2021-01-01"),y=7,label="first wave",angle = 90, size=4) +
-  # annotate("text",x=ymd("2021-08-01"),y=7,label="second wave",angle = 90, size=4) +
-  # annotate("text",x=ymd("2022-12-01"),y=6.9,label="Omicron wave",angle = 90, size=4) +
   geom_col(data= dat.conception,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
   scale_x_date(labels = date_format("%Y"), 
                breaks = date_breaks("1 year"),
@@ -89,15 +80,10 @@ plot_excess_conception <- ggplot() +
   ylab("Relatitve differences")+
   ggtitle("Conception") +
   theme_bw()+
-  #theme_light(base_size = 16)+
-  theme_bw() +
   theme(
     axis.text.y = element_text(size=20),
-    # legend.position = c(0.1,0.1),
     legend.position = "bottom",
     legend.text=element_text(size=16),
-    # legend.key.size = unit(3.5, 'cm'),
-    # legend.spacing.x = unit(3.5, 'cm'),
     axis.text.x = element_text(size=20),
     axis.title.x  = element_text(size=20),
     axis.title.y  = element_text(size=20),
@@ -110,18 +96,11 @@ plot_birth <- ggplot()+
   annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-01-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   annotate("rect",xmin=ymd("2022-09-01"),xmax=ymd("2023-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-
-  # annotate("text",x=ymd("2021-01-01"),y=7,label="first wave",angle = 90, size=4) +
-  # annotate("text",x=ymd("2021-08-01"),y=7,label="second wave",angle = 90, size=4) +
-  # annotate("text",x=ymd("2022-12-01"),y=6.9,label="Omicron wave",angle = 90, size=4) +
   scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("2016-01-01")), max(ymd("2024-01-01")))) +
-                   # limits =c(min(ymd("2016-01-01")), max(ymd("2023-01-01")))) +
   ggtitle("Birth") +
-      # xlim(1910, 1968) +
       xlab("Year") +
-      # ylab("Births per 10'000 inhabitants")+
       ylab("Births per 10'000 inhabitants")+
       scale_color_manual("",
                          breaks=c("births","fit"),
@@ -135,11 +114,8 @@ plot_birth <- ggplot()+
       theme_bw() +
       theme(
         axis.text.y = element_text(size=20),
-        # legend.position = c(0.2,0.2),
         legend.position = "bottom",
         legend.text=element_text(size=16),
-        # legend.key.size = unit(3.5, 'cm'),
-        # legend.spacing.x = unit(3.5, 'cm'),
         axis.text.x = element_text(size=20),
         axis.title.x  = element_blank(),
         axis.title.y  = element_text(size=20),
@@ -149,9 +125,6 @@ plot_excess_birth <- ggplot() +
   annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-01-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   annotate("rect",xmin=ymd("2021-07-01"),xmax=ymd("2021-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
   annotate("rect",xmin=ymd("2022-09-01"),xmax=ymd("2023-02-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="indianred1") +
-  # annotate("text",x=ymd("2021-01-01"),y=7,label="first wave",angle = 90, size=4) +
-  # annotate("text",x=ymd("2021-08-01"),y=7,label="second wave",angle = 90, size=4) +
-  # annotate("text",x=ymd("2022-12-01"),y=6.9,label="Omicron wave",angle = 90, size=4) +
   geom_col(data= dat.birth,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
   scale_x_date(labels = date_format("%Y"), 
                breaks = date_breaks("1 year"),
@@ -163,16 +136,11 @@ plot_excess_birth <- ggplot() +
   xlab("Year")+
   ylab("Relatitve differences")+
   ggtitle("Birth") +
-  theme_bw()+
-  #theme_light(base_size = 16)+
   theme_bw() +
   theme(
     axis.text.y = element_text(size=20),
-    # legend.position = c(0.1,0.1),
     legend.position = "bottom",
     legend.text=element_text(size=16),
-    # legend.key.size = unit(3.5, 'cm'),
-    # legend.spacing.x = unit(3.5, 'cm'),
     axis.text.x = element_text(size=20),
     axis.title.x  = element_text(size=20),
     axis.title.y  = element_text(size=20),

@@ -1,7 +1,4 @@
-function_plot_russian <- function(group_data, pop_group, Title) {
-  
-
-    load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
+load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
     
     dat.exp <- expected_birth %>%
       mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
@@ -26,19 +23,14 @@ function_plot_russian <- function(group_data, pop_group, Title) {
       annotate("text",x=ymd("1970-10-01"),y=16.5,label="+9m. Hong Kong flu w2",angle = 90, size=6) +
       
       geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
-      # geom_line(data=dat.exp,aes(x=birth, y=LL_inc, col="Interval"),linetype=1, alpha=0.3) +
-      # geom_line(data=dat.exp,aes(x=birth, y=UL_inc, col="Interval"),linetype=1, alpha=0.3) +
       geom_line(data=dat.exp, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
       geom_line(data=dat.exp, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
     
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("1964-01-01")), max(ymd("1974-01-01")))) +
-      # coord_cartesian(ylim=c(0, 50)) +
-      ggtitle(Title) +
-      # xlim(1910, 1968) +
+      ggtitle("Monthly birth rate & the \"Hong Kong flu\" 1969/70") +
       xlab("Year") +
-      # ylab("Births per 10'000 inhabitants")+
       ylab("Births per 10'000 inhabitants")+
       scale_color_manual("",
                          breaks=c("births","fit"),
@@ -52,11 +44,8 @@ function_plot_russian <- function(group_data, pop_group, Title) {
       theme_bw() +
       theme(
         axis.text.y = element_text(size=20),
-        # legend.position = c(0.2,0.2),
         legend.position = "bottom",
         legend.text=element_text(size=16),
-        # legend.key.size = unit(3.5, 'cm'),
-        # legend.spacing.x = unit(3.5, 'cm'),
         axis.text.x = element_text(size=20),
         axis.title.x  = element_blank(),
         axis.title.y  = element_text(size=20),
@@ -78,17 +67,11 @@ function_plot_russian <- function(group_data, pop_group, Title) {
                         values =c("red","grey")) +
       xlab("Year")+
       ylab("Relatitve differences")+
-      # ggtitle(Title) +
-      theme_bw()+
-      #theme_light(base_size = 16)+
       theme_bw() +
       theme(
         axis.text.y = element_text(size=20),
-        # legend.position = c(0.1,0.1),
         legend.position = "bottom",
         legend.text=element_text(size=16),
-        # legend.key.size = unit(3.5, 'cm'),
-        # legend.spacing.x = unit(3.5, 'cm'),
         axis.text.x = element_text(size=20),
         axis.title.x  = element_text(size=20),
         axis.title.y  = element_text(size=20),
@@ -101,10 +84,7 @@ function_plot_russian <- function(group_data, pop_group, Title) {
                                         ncol=1, nrow=2,rel_heights = c(1,.7), align="hv")
 
   
-  cowplot::save_plot(paste0("output/plot_birth_1969_",group_data,".pdf"),plot_together ,base_height=12,base_width=15)
+  cowplot::save_plot(paste0("output/plot_birth_1969.pdf"),plot_together ,base_height=12,base_width=15)
   
-}
-
-function_plot_russian(group_data="total_birth",pop_group="pop",Title="Monthly birth rate & the \"Hong Kong flu\" 1969/70")
 
 

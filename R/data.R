@@ -132,34 +132,14 @@ data_pop_rep_women30_49 <- read.xlsx("data/population.xlsx") %>%
   select(Year, Geschlecht,population) %>%
   mutate(Alter="30-49") 
 
-# data_tmp_t <- data.frame(Year=rep(seq(1871,2022,1),11), population=rep(NA,1672),Month=rep(seq(2,12,1),152),
-#                          Alter=rep("Alter - Total", 1672), Geschlecht=rep("Geschlecht - Total", 1672)) %>%
-#   mutate(Year = as.factor(Year))
-# 
-# 
-# data_tmp_w <- data.frame(Year=rep(seq(1871,2022,1),11), population=rep(NA,1672),Month=rep(seq(2,12,1),152),
-#                          Alter=rep("15-49", 1672), Geschlecht=rep("Frau", 1672)) %>%
-#   mutate(Year = as.factor(Year))
-
 pop_month_total <- data_pop_total %>%
   mutate(Canton ="Switzerland",
          Citizenship="total")
 
-  # full_join(data_tmp_t) %>%
-  # arrange(Year, Month) %>%
-  # mutate(pop.monthly = round(zoo::na.approx(population, na.rm=FALSE),0),
-  #        pop.monthly = ifelse(Year==2022 ,8815385, pop.monthly))
-
-
 pop_month_women <- rbind(data_pop_rep_women,data_pop_rep_women30, data_pop_rep_women30_49) %>%
   mutate(Canton ="Switzerland",
          Citizenship="total")
-# %>%
-#   mutate(Month=1) 
-  # full_join(data_tmp_w) %>%
-  # arrange(Year, Month) %>%
-  # mutate(pop.monthly = round(zoo::na.approx(population, na.rm=FALSE),0),
-  #        pop.monthly = ifelse(Year==2022 ,1936043, pop.monthly))
+
 
 data_pop <- rbind(pop_month_total, pop_month_women) %>%
   mutate(Year=as.factor(Year)) %>%
