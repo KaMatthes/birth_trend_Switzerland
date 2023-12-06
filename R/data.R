@@ -149,7 +149,12 @@ data_pop <- rbind(pop_month_total, pop_month_women) %>%
 data_total <- data_birth %>%
   full_join(data_pop) %>%
   select(-birth) %>%
-  mutate(birth_ratio = males/females)
+  mutate(birth_ratio = males/females) %>%
+  select(Year, Month, total_birth, Sex=Geschlecht, Age=Alter, population,	Canton,	Citizenship,	females,	males,
+         parity_1,	parity_2,	parity_sup2,	swiss,	non_swiss,	german_romansh,	french,	italy,	mat_age_below_30,	mat_age_above_or_eq_30,	birth_ratio) %>%
+  mutate(Sex=recode(Sex, "Geschlecht - Total" = "total",
+                    "Frau" = "female"),
+         Ag=recode(Age, "Alter - Total" = "total"))
 
 write.xlsx( data_total,"data/data_total.xlsx")
 
