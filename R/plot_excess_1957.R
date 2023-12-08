@@ -8,7 +8,7 @@ load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
              UL_inc = UL/denominator*10000,
              excess_birth = birth_var-fit,
              rel_excess_birth = excess_birth/fit*100,
-             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"non-significant","significant"),
+             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and lower births"),
              significant_dummy = as.factor( significant_dummy)) %>%
       filter(Year > 1951 & Year < 1963)
     
@@ -56,7 +56,7 @@ load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
                    limits =c(min(ymd("1952-01-01")), max(ymd("1962-01-01")))) +
       scale_y_continuous(labels = scales::percent, limits = c(-0.25,0.25)) +
       scale_fill_manual("",
-                        breaks=c("significant","non-significant"),
+                        breaks=c("excess and lower births","no differences"),
                         values =c("red","grey")) +
       xlab("Year")+
       ylab("Relatitve differences")+
