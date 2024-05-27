@@ -17,4 +17,8 @@ conflict_prefer("summarise", "dplyr")
 
 col_pal <- pal_jco()(8)
 
-
+axis_text_size <- 20
+axis_title_size <- 20
+plot_title_size <- 25
+legend_text_size <- 20
+bar_text_size <- 6

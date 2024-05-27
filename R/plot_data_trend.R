@@ -1,78 +1,131 @@
-function_plot_trend <-  function(varBirth,varPop,pop_group, CitGroup, CanGroup, AgeGroup, Title){
-  
+
+varBirth="total_birth"
+varPop="population"
+pop_group="female"
+CitGroup="total"
+CanGroup="Switzerland"
+AgeGroup = "15-49"
+Title ="Monthly birth rate in Switzerland, 1871-2023"
+
 load("data/data_total.RData")
+  
   dat.trend <- data_total %>%
-    filter(Geschlecht==pop_group) %>%
+    filter(Sex==pop_group) %>%
     filter(Citizenship==CitGroup) %>%
     filter(Canton== CanGroup) %>%
-    filter(Alter==  AgeGroup) %>%
+    filter(Age==  AgeGroup) %>%
     select(eval(substitute(varBirth)),Year, Month,eval(substitute(varPop))) %>%
     rename(birth_var = eval(substitute(varBirth)),
            denominator = eval(substitute(varPop))) %>%
-    mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
-           birth_inc = birth_var/denominator*10000)
+    mutate(Year = as.numeric(Year),
+           birth = ymd(paste0(Year,"-", Month,"-01")),
+           birth_inc = birth_var/denominator*1000) %>%
+    arrange(Year)
   
 
+
+
+
 plot_trend <- ggplot()+
-  annotate("rect",xmin=ymd("1890-09-01"),xmax=ymd("1890-11-01"),ymin=-Inf,ymax=17,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1889-08-01"),y=8.5,label="+9m. Russian flu",angle = 90, size=6) +
+  geom_line(data=dat.trend, aes(x=birth, y=birth_inc, col="births"),lwd=1) +
+
+  annotate("rect",xmin=ymd("1890-09-01"),xmax=ymd("1890-11-01"),ymin=-Inf,ymax=6.5,alpha=1,fill="lightgrey") +
+  annotate("text",x=ymd("1889-08-01"),y=5, label="+9m. 1890 flu",angle = 90, size=bar_text_size) +
   
-  annotate("rect",xmin=ymd("1915-05-01"),xmax=ymd("1915-07-01"),ymin=-Inf,ymax=12.5,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1914-03-01"),y=8.5,label="+9m. Start WW1",angle = 90, size=6) +
+  annotate("rect",xmin=ymd("1915-05-01"),xmax=ymd("1915-07-01"),ymin=8,ymax=Inf,alpha=1,fill="lightgrey") +
+  annotate("text",x=ymd("1914-03-01"),y=10,label="+9m. Start WW1",angle = 90, size=bar_text_size) +
   
-  annotate("rect",xmin=ymd("1919-07-01"),xmax=ymd("1919-09-01"),ymin=-Inf,ymax=12,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1921-12-01"),y=8.5,label="+9m. End WW1\n& Spanish flu",lineheight=0.8,angle = 90, size=6) +
+  annotate("rect",xmin=ymd("1919-07-01"),xmax=ymd("1919-09-01"),ymin=8,ymax=Inf,alpha=1,fill="lightgrey") +
+  annotate("text",x=ymd("1921-12-01"),y=10,label="+9m. End WW1\n& 1918 flu",lineheight=0.8,angle = 90, size=bar_text_size) +
   
-  annotate("rect",xmin=ymd("1940-05-01"),xmax=ymd("1940-07-01"),ymin=-Inf,ymax=9.5,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1942-08-01"),y=7.5,label="+9m. Start\nWW2",lineheight=0.8, angle = 90, size=6) +
+  annotate("rect",xmin=ymd("1940-05-01"),xmax=ymd("1940-07-01"),ymin=6,ymax=Inf,alpha=1,fill="lightgrey") +
+  annotate("text",x=ymd("1938-09-01"),y=10,label="+9m. Start\nWW2",lineheight=0.8, angle = 90, size=bar_text_size) +
   
-  annotate("rect",xmin=ymd("1946-01-01"),xmax=ymd("1946-03-01"),ymin=20,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1947-04-01"),y=28,label="+9m. End WW2",angle = 90, size=6) +
+  annotate("rect",xmin=ymd("1946-01-01"),xmax=ymd("1946-03-01"),ymin=8,ymax=Inf,alpha=1,fill="lightgrey") +
+  annotate("text",x=ymd("1947-04-01"),y=10,label="+9m. End WW2",angle = 90, size=bar_text_size) +
   
-  annotate("rect",xmin=ymd("1958-06-01"),xmax=ymd("1958-08-01"),ymin=17.5,ymax=Inf,alpha=0.8,fill="lightgrey") +
-  annotate("text",x=ymd("1957-04-01"),y=27.8,label="+9m. Asian flu",angle = 90, size=6) +
+  annotate("rect",xmin=ymd("1958-06-01"),xmax=ymd("1958-08-01"),ymin=7,ymax=Inf,alpha=0.8,fill="lightgrey") +
+  annotate("text",x=ymd("1957-04-01"),y=10,label="+9m. 1957 flu",angle = 90, size=bar_text_size) +
   
-  annotate("rect",xmin=ymd("1962-01-01"),xmax=ymd("1962-03-01"),ymin=17.5,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1964-03-01"),y=27.5,label="+9m. 1st approval\nbirth control pill",lineheight=0.8,angle = 90, size=6) +
+  annotate("rect",xmin=ymd("1962-01-01"),xmax=ymd("1962-03-01"),ymin=7,ymax=Inf,alpha=1,fill="lightgrey") +
+  annotate("text",x=ymd("1964-03-01"),y=10,label="+9m. 1st approval\nbirth control pill",lineheight=0.8,angle = 90, size=bar_text_size) +
   
-  annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=10,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("2019-11-01"),y=27,label="+9m. Start Covid-19",angle = 90, size=6) +
- 
-   geom_line(data=dat.trend, aes(x=birth, y=birth_inc, col="births"),lwd=1) +
+  annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=4.5,ymax=Inf,alpha=1,fill="lightgrey") +
+  annotate("text",x=ymd("2019-11-01"),y=10,label="+9m. Start Covid-19",angle = 90, size=bar_text_size) +
+
+  scale_color_manual("",
+                     values=c( "grey40"),
+                     guide = "none") +
   
   scale_x_date(labels = date_format("%Y"), 
-               breaks = date_breaks("10 year")) +
-               limits =c(min(ymd("1871-01-01")), max(ymd("2023-12-01"))) +
-      ggtitle(Title) +
-      xlab("Year") +
-      ylab("Births per 10'000 inhabitants")+
-      scale_color_manual("",
-                         values=c( "grey40"),
-                         guide = "none") +
+               breaks = date_breaks("10 year"))  +
+  
+  scale_y_continuous(
+               breaks  = seq(0, 12,1))  +
+  
+  ggtitle(Title) +
+  xlab("Year") +
+  ylab("Crude birth rate per 1'000 females in the age 15–49 years") +
+  
       theme_bw() +
-      theme(
-        axis.text.y = element_text(size=20),
-        legend.position = "bottom",
-        legend.text=element_text(size=16),
-        axis.text.x = element_text(size=20),
-        axis.title.x  = element_text(size=20),
-        axis.title.y  = element_text(size=20),
-        plot.title = element_text(size=25),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.minor.y = element_blank(),
-        panel.grid.major.y = element_blank(),
-        panel.grid.major.x = element_blank())
-  
-  
+  theme(
+    axis.text = element_text(size=axis_text_size),
+    axis.title  = element_text(size=axis_title_size),
+    legend.position = "bottom",
+    legend.text=element_text(size=legend_text_size),
+    plot.title = element_text(size=plot_title_size),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.minor.y = element_blank())
+
+plot_trend
   
   cowplot::save_plot(paste0("output/plot_trend_",varBirth,".pdf"),   plot_trend ,base_height=10,base_width=20)
   
-}
+  
+  
+  
+  dt_hmd <- read.csv("data/TFR_HFD.txt", sep="") %>%
+    select(Year,TFR) 
+  
+  dat.y <- dat.trend %>%
+    filter(Year %in% 1932:2022) %>%
+    group_by(Year, denominator) %>%
+    summarise(birth_y = sum(birth_var)) %>%
+    mutate(birth_c = birth_y/denominator*1000) %>%
+    left_join(dt_hmd)
+  
+  
+  coeff <- 30
+  
+plot_com <- ggplot()+
+  geom_line(data=dat.y, aes(x=Year, y=birth_c, col="Crude rate", linetype="Crude rate"),lwd=1.5) +
+  geom_line(data=dat.y, aes(x=Year, y=TFR*coeff, col="TRF", linetype="TRF"),lwd=1.5) +
+  scale_color_manual("",
+                     values=c("grey10","grey50")) +
+  scale_linetype_manual("",
+                     values=c("solid","longdash")) +
+  
+  scale_y_continuous(name = "Crude birth rate per 1'000 females in the age 15–49 years",
+                     sec.axis = sec_axis(~./coeff, name = "TFR (Human Fertility Database)")) +
+    
+    ggtitle("Annual birth rate in Switzerland, 1932-2022") +
+    xlab("Year") +
+    ylab("Crude birth rate per 1'000 females in the age 15–49 years") +
+    
+    theme_bw() +
+    theme(
+      axis.text = element_text(size=axis_text_size),
+      axis.title  = element_text(size=axis_title_size),
+      legend.position = c(0.8,0.8),
+      legend.key.size = unit(2, 'cm'),
+      legend.text=element_text(size=legend_text_size),
+      plot.title = element_text(size=plot_title_size),
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank())
+
+cowplot::save_plot("output/plot_com.pdf", plot_com ,base_height=10,base_width=20)
+  
 
 
-function_plot_trend (varBirth="total_birth",varPop="population",
-                     pop_group="Geschlecht - Total",CitGroup="total", 
-                     CanGroup="Switzerland",AgeGroup = "Alter - Total",
-                     Title ="Monthly birth rate in Switzerland, 1871-2023")
 
 

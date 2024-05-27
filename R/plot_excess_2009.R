@@ -1,16 +1,15 @@
-load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
-    
-    dat.exp <- expected_birth %>%
+dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_2010.rds") %>%
       mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
-             birth_inc = birth_var/denominator*10000,
-             fit_inc = fit/denominator*10000,
-             LL_inc = LL/denominator *10000,
-             UL_inc = UL/denominator*10000,
+             birth_inc = birth_var/denominator*1000,
+             fit_inc = fit/denominator*1000,
+             LL_inc = LL/denominator *1000,
+             UL_inc = UL/denominator*1000,
              excess_birth = birth_var-fit,
              rel_excess_birth = excess_birth/fit*100,
              significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and lower births"),
              significant_dummy = as.factor( significant_dummy)) %>%
-      filter(Year > 2003 & Year < 2015)
+filter(Year %in% 2004:2014)
+
     
     
     
@@ -18,20 +17,24 @@ load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
       
       
       annotate("rect",xmin=ymd("2010-07-01"),xmax=ymd("2010-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
-      annotate("text",x=ymd("2010-08-01"),y=7.5,label="+9m. Swine flu",angle = 90, size=5) +
+      annotate("text",x=ymd("2010-08-01"),y=4.4,label="+9m. 2009 flu",angle = 90, size=bar_text_size) +
       annotate("rect",xmin=ymd("2009-07-01"),xmax=ymd("2009-12-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="lightgreen") +
-      annotate("text",x=ymd("2009-09-15"),y=9.5,label="+9m. Great recession",angle = 90, size=5) +
+      annotate("text",x=ymd("2009-09-15"),y=4.4,label="+9m. Great recession",angle = 90, size=bar_text_size) +
       
-      geom_ribbon(data=dat.exp,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
-      geom_line(data=dat.exp, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
-      geom_line(data=dat.exp, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
+      geom_ribbon(data=dt,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
+      geom_line(data=dt, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
+      geom_line(data=dt, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
     
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("2004-01-01")), max(ymd("2014-01-01")))) +
-      ggtitle("Monthly birth rate vs. the Great recession 2008/2009 & the \"Swine flu\" 2009") +
+      
+      scale_y_continuous(breaks  = seq(2, 5,1))  +
+      ylim(c(2,5))+
+      
+      ggtitle("Monthly birth rate vs. the Great recession 2008/2009 & the 2009 flu") +
       xlab("Year") +
-      ylab("Births per 10'000 inhabitants")+
+      ylab("Crude birth rate \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",
                          breaks=c("births","fit"),
                          labels=c("Observed births", "Expected births" ),
@@ -43,13 +46,11 @@ load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
                         values=c( "grey90")) +
       theme_bw() +
       theme(
-        axis.text.y = element_text(size=20),
+        axis.text = element_text(size=axis_text_size),
+        axis.title  = element_text(size=axis_title_size),
         legend.position = "bottom",
-        legend.text=element_text(size=16),
-        axis.text.x = element_text(size=20),
-        axis.title.x  = element_blank(),
-        axis.title.y  = element_text(size=20),
-        plot.title = element_text(size=20),
+        legend.text=element_text(size=legend_text_size),
+        plot.title = element_text(size=plot_title_size),
         panel.grid.minor.x = element_blank(),
         panel.grid.minor.y = element_blank())
     
@@ -57,11 +58,11 @@ load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
     plot_excess <- ggplot() +
       annotate("rect",xmin=ymd("2010-07-01"),xmax=ymd("2010-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
       annotate("rect",xmin=ymd("2009-07-01"),xmax=ymd("2009-12-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="lightgreen") +
-      geom_col(data= dat.exp,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
+      geom_col(data= dt,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("2004-01-01")), max(ymd("2014-01-01")))) +
-      scale_y_continuous(labels = scales::percent, limits = c(-0.25,0.25)) +
+      scale_y_continuous(labels = scales::percent) +
       scale_fill_manual("",
                         breaks=c("excess and lower births","no differences"),
                         values =c("red","grey")) +
@@ -69,22 +70,19 @@ load("data/expected_birth_inla_month_total_birth_Geschlecht - Total.RData")
       ylab("Relatitve differences")+
       theme_bw() +
       theme(
-        axis.text.y = element_text(size=20),
+        axis.text = element_text(size=axis_text_size),
+        axis.title  = element_text(size=axis_title_size),
         legend.position = "bottom",
-        legend.text=element_text(size=16),
-        axis.text.x = element_text(size=20),
-        axis.title.x  = element_text(size=20),
-        axis.title.y  = element_text(size=20),
-        plot.title = element_text(size=20),
+        legend.text=element_text(size=legend_text_size),
+        plot.title = element_text(size=plot_title_size),
         panel.grid.minor.x = element_blank(),
         panel.grid.minor.y = element_blank())
-
+    
     
     plot_together <- cowplot::plot_grid(plot_birth,plot_excess,
-                                        ncol=1, nrow=2,rel_heights = c(1,.7), align="hv")
-
+                                        ncol=1, nrow=2,rel_heights = c(1,1), align="hv")
   
-  cowplot::save_plot(paste0("output/plot_birth_2009.pdf"),plot_together ,base_height=12,base_width=15)
+  cowplot::save_plot(paste0("output/plot_birth_2009.pdf"),plot_together ,base_height=15,base_width=15)
   
 
 
