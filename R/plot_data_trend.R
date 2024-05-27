@@ -107,6 +107,7 @@ plot_com <- ggplot()+
   
   scale_y_continuous(name = "Crude birth rate per 1'000 females in the age 15–49 years",
                      sec.axis = sec_axis(~./coeff, name = "TFR (Human Fertility Database)")) +
+  scale_x_continuous(breaks  = seq(1932, 2022,5)) +
     
     ggtitle("Annual birth rate in Switzerland, 1932-2022") +
     xlab("Year") +
