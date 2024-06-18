@@ -15,8 +15,9 @@ conflict_prefer("arrange", "dplyr")
 conflict_prefer("group_by", "dplyr")
 conflict_prefer("summarise", "dplyr")
 
-col_pal <- pal_jco()(8)
 
+# plot parameters
+col_pal <- pal_jco()(8)
 axis_text_size <- 20
 axis_title_size <- 20
 plot_title_size <- 25
