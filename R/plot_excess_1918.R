@@ -6,7 +6,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1915.rds") %>
              UL_inc = UL/denominator*1000,
              excess_birth = birth_var-fit,
              rel_excess_birth = excess_birth/fit*100,
-             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and lower births"),
+             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and deficits births"),
              significant_dummy = as.factor( significant_dummy)) %>%
   filter(Year %in% 1912:1922)
   
@@ -62,7 +62,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1915.rds") %>
                    limits =c(min(ymd("1912-01-01")), max(ymd("1922-01-01")))) +
       scale_y_continuous(labels = scales::percent) +
       scale_fill_manual("",
-                        breaks=c("excess and lower births","no differences"),
+                        breaks=c("excess and deficits births","no differences"),
                         values =c("red","grey")) +
       xlab("Year")+
       ylab("Relatitve differences")+
