@@ -82,7 +82,7 @@ filter(Year %in% 2004:2014)
     plot_together <- cowplot::plot_grid(plot_birth,plot_excess,
                                         ncol=1, nrow=2,rel_heights = c(1,1), align="hv")
   
-  cowplot::save_plot(paste0("output/plot_birth_2009.pdf"),plot_together ,base_height=15,base_width=15)
+  # cowplot::save_plot(paste0("output/plot_birth_2009.pdf"),plot_together ,base_height=15,base_width=15)
   
-
+  ggsave(paste0("output//plot_birth_2009.png"),     plot_together ,h=15,w=15)
 

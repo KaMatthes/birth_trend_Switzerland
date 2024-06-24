@@ -5,15 +5,16 @@ pop_group="female"
 CitGroup="total"
 CanGroup="Switzerland"
 AgeGroup = "15-49"
-Title ="Monthly birth rate in Switzerland, 1871-2023"
+Title ="Monthly birth rate in Switzerland, 1871-2022"
 
 load("data/data_total.RData")
   
   dat.trend <- data_total %>%
-    filter(Sex==pop_group) %>%
-    filter(Citizenship==CitGroup) %>%
-    filter(Canton== CanGroup) %>%
-    filter(Age==  AgeGroup) %>%
+    filter(Sex %in% pop_group,
+           Citizenship %in% CitGroup,
+           Canton %in% CanGroup,
+           Age %in% AgeGroup,
+           !Year %in% 2023) %>%
     select(eval(substitute(varBirth)),Year, Month,eval(substitute(varPop))) %>%
     rename(birth_var = eval(substitute(varBirth)),
            denominator = eval(substitute(varPop))) %>%
@@ -79,9 +80,9 @@ plot_trend <- ggplot()+
 
 plot_trend
   
-  cowplot::save_plot(paste0("output/plot_trend_",varBirth,".pdf"),   plot_trend ,base_height=10,base_width=20)
+  # cowplot::save_plot(paste0("output/plot_trend_",varBirth,".pdf"),   plot_trend ,base_height=10,base_width=20)
   
-  
+  ggsave(paste0("output/plot_trend_",varBirth,".png"),  plot_trend,h=10,w=20)
   
   
   dt_hmd <- read.csv("data/TFR_HFD.txt", sep="") %>%
@@ -123,9 +124,10 @@ plot_com <- ggplot()+
       plot.title = element_text(size=plot_title_size),
       panel.grid.minor.x = element_blank(),
       panel.grid.minor.y = element_blank())
+# 
+# cowplot::save_plot("output/plot_com.pdf", plot_com ,base_height=10,base_width=20)
 
-cowplot::save_plot("output/plot_com.pdf", plot_com ,base_height=10,base_width=20)
-  
+ggsave(paste0("output/plot_com.png"),  plot_com ,h=10,w=20)
 
 
 

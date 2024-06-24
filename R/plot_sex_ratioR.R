@@ -1,25 +1,26 @@
-function_plot_trend <-  function(varBirth,varPop,pop_group, CitGroup, CanGroup, AgeGroup, Title){
+
   
   
 varBirth="birth_ratio"
 varPop="population"
-pop_group="Geschlecht - Total"
+pop_group="total"
 CitGroup="total"
 CanGroup="Switzerland"
-AgeGroup = "Alter - Total"
+AgeGroup = "total"
 
   
 load("data/data_total.RData")
+
   dat.trend <- data_total %>%
-    filter(Geschlecht==pop_group) %>%
+    filter(Sex==pop_group) %>%
     filter(Citizenship==CitGroup) %>%
     filter(Canton== CanGroup) %>%
-    filter(Alter==  AgeGroup) %>%
+    filter(Age ==  AgeGroup) %>%
     select(eval(substitute(varBirth)),Year, Month,eval(substitute(varPop))) %>%
     rename(birth_var = eval(substitute(varBirth)),
            denominator = eval(substitute(varPop))) %>%
     mutate(birth = ymd(paste0(Year,"-", Month,"-01"))) %>%
-    filter(Year>2015) %>%
+    filter(Year %in% 2016:2022) %>%
     distinct(Year, Month, .keep_all = TRUE)
   
 
@@ -37,9 +38,9 @@ plot_trend <- ggplot() +
   scale_x_date(labels = date_format("%Y"), 
                breaks = date_breaks("1 year"),
                    # limits =c(min(ymd("2018-01-01")), max(ymd("2023-09-01")))) +
-               limits =c(min(ymd("2016-01-01")), max(ymd("2023-12-01")))) +
+               limits =c(min(ymd("2016-01-01")), max(ymd("2022-12-01")))) +
   # coord_cartesian(ylim=c(0, 50)) +
-      ggtitle(Title) +
+      ggtitle("Trend sex ratio") +
       ylim(0.95, 1.15) +
       xlab("Year") +
       # ylab("Births per 10'000 inhabitants")+
@@ -62,14 +63,6 @@ plot_trend <- ggplot() +
   
     
   
-  cowplot::save_plot(paste0("output/plot_trend_2020",varBirth,".pdf"),   plot_trend ,base_height=10,base_width=20)
-  
-}
-
-
-function_plot_trend (varBirth="birth_ratio",varPop="population",
-                     pop_group="Geschlecht - Total",CitGroup="total", 
-                     CanGroup="Switzerland",AgeGroup = "Alter - Total",
-                     Title ="Trend sex ratio")
-
+  # cowplot::save_plot(paste0("output/plot_trend_2020",varBirth,".pdf"),   plot_trend ,base_height=10,base_width=20)
+ggsave("output/plot_birth_ratio.png" ,    plot_trend ,h=10,w=20)
 

@@ -83,7 +83,6 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1970.rds") %>
                                         ncol=1, nrow=2,rel_heights = c(1,1), align="hv")
 
   
-  cowplot::save_plot(paste0("output/plot_birth_1969.pdf"),plot_together ,base_height=15,base_width=15)
+  # cowplot::save_plot(paste0("output/plot_birth_1969.pdf"),plot_together ,base_height=15,base_width=15)
   
-
-
+  ggsave(paste0("output//plot_birth_1969.png"),     plot_together ,h=15,w=15)
