@@ -34,7 +34,7 @@ plot_birth <- ggplot()+
   ylim(c(2.5,5))+
       ggtitle("Monthly birth rate: Recent trends") +
       xlab("Year") +
-  ylab("Crude birth rate \n per 1'000 females in the age 15–49 years") +
+  ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",
                          breaks=c("births","fit"),
                          labels=c("Observed births", "Expected births" ),

@@ -31,7 +31,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1970.rds") %>
                    limits =c(min(ymd("1964-01-01")), max(ymd("1974-01-01")))) +
       ggtitle("Monthly birth rate & the 1969/70 flu") +
       xlab("Year") +
-      ylab("Crude birth rate \n per 1'000 females in the age 15–49 years") +
+      ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",
                          breaks=c("births","fit"),
                          labels=c("Observed births", "Expected births" ),

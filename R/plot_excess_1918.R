@@ -31,7 +31,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1915.rds") %>
       ylim(c(4,11))+
       ggtitle("Monthly birth rate vs WW1 & the 1918 flu") +
       xlab("Year") +
-      ylab("Crude birth rate \n per 1'000 females in the age 15–49 years") +
+      ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",
                          breaks=c("births","fit"),
                          labels=c("Observed births", "Expected births" ),

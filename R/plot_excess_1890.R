@@ -29,7 +29,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
       
       ggtitle("Monthly birth rate & the 1890 flu") +
       xlab("Year") +
-      ylab("Crude birth rate \n per 1'000 females in the age 15–49 years") +
+      ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",
                          breaks=c("births","fit"),
                          labels=c("Observed births", "Expected births" ),
@@ -79,5 +79,5 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
   
   # cowplot::save_plot(paste0("output/plot_birth_1890.pdf"),plot_together ,base_height=15,base_width=15)
   
-  ggsave(paste0("output//plot_birth_1890.png"),     plot_together ,h=15,w=15)
+  ggsave(paste0("output/plot_birth_1890.png"),     plot_together ,h=15,w=15)
 

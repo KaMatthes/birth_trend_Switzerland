@@ -34,7 +34,7 @@ filter(Year %in% 2004:2014)
       
       ggtitle("Monthly birth rate vs. the Great recession 2008/2009 & the 2009 flu") +
       xlab("Year") +
-      ylab("Crude birth rate \n per 1'000 females in the age 15–49 years") +
+      ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",
                          breaks=c("births","fit"),
                          labels=c("Observed births", "Expected births" ),

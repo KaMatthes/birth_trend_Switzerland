@@ -66,7 +66,7 @@ plot_trend <- ggplot()+
   
   ggtitle(Title) +
   xlab("Year") +
-  ylab("Crude birth rate per 1'000 females in the age 15–49 years") +
+  ylab("General fertility rate (GFR) per 1'000 females in the age 15–49 years") +
   
       theme_bw() +
   theme(
@@ -85,20 +85,22 @@ plot_trend
   ggsave(paste0("output/plot_trend_",varBirth,".png"),  plot_trend,h=10,w=20)
   
   
-  dt_hmd <- read.csv("data/TFR_HFD.txt", sep="") %>%
-    select(Year,TFR) 
+### Annual crude rate vs TFR
+  
+  dt_tfr <- read.csv("data/TFR.csv", sep=";") %>%
+    select(Year, TFR)
   
   dat.y <- dat.trend %>%
-    filter(Year %in% 1932:2022) %>%
+    filter(Year %in% 1871:2022) %>%
     group_by(Year, denominator) %>%
     summarise(birth_y = sum(birth_var)) %>%
     mutate(birth_c = birth_y/denominator*1000) %>%
-    left_join(dt_hmd)
+    left_join(dt_tfr )
   
   
   coeff <- 30
   
-plot_com <- ggplot()+
+plot_tfr <- ggplot()+
   geom_line(data=dat.y, aes(x=Year, y=birth_c, col="Crude rate", linetype="Crude rate"),lwd=1.5) +
   geom_line(data=dat.y, aes(x=Year, y=TFR*coeff, col="TRF", linetype="TRF"),lwd=1.5) +
   scale_color_manual("",
@@ -106,9 +108,9 @@ plot_com <- ggplot()+
   scale_linetype_manual("",
                      values=c("solid","longdash")) +
   
-  scale_y_continuous(name = "Crude birth rate per 1'000 females in the age 15–49 years",
-                     sec.axis = sec_axis(~./coeff, name = "TFR (Human Fertility Database)")) +
-  scale_x_continuous(breaks  = seq(1932, 2022,5)) +
+  scale_y_continuous(name = "General fertility rate (GFR) per 1'000 females in the age 15–49 years",
+                     sec.axis = sec_axis(~./coeff, name = "Total fertility rate (TFR)")) +
+  scale_x_continuous(breaks  = seq(1871, 2022,10)) +
     
     ggtitle("Annual birth rate in Switzerland, 1932-2022") +
     xlab("Year") +
@@ -127,7 +129,7 @@ plot_com <- ggplot()+
 # 
 # cowplot::save_plot("output/plot_com.pdf", plot_com ,base_height=10,base_width=20)
 
-ggsave(paste0("output/plot_com.png"),  plot_com ,h=10,w=20)
+ggsave(paste0("output/plot_TFR.png"),  plot_tfr ,h=10,w=20)
 
 
 
