@@ -21,11 +21,11 @@ plot_birth <- ggplot()+
   geom_ribbon(data=dt,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
   geom_line(data=dt, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
   geom_line(data=dt, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
-  annotate("text",x=ymd("2021-01-01"),y=2,label="A", size=bar_text_size) +
-  annotate("text",x=ymd("2021-09-01"),y=2,label="B", size=bar_text_size) +
-  annotate("text",x=ymd("2022-10-01"),y=2,label="D", size=bar_text_size) +
+  annotate("text",x=ymd("2021-01-01"),y=2.5,label="A", size=bar_text_size) +
+  annotate("text",x=ymd("2021-09-01"),y=2.5,label="B", size=bar_text_size) +
+  annotate("text",x=ymd("2022-10-01"),y=2.5,label="D", size=bar_text_size) +
   # annotate("text",x=ymd("2023-04-01"),y=2,label="E", size=bar_text_size) +
-  annotate("text",x=ymd("2022-05-01"),y=2,label="C", size=bar_text_size) +
+  annotate("text",x=ymd("2022-05-01"),y=2.5,label="C", size=bar_text_size) +
 
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
