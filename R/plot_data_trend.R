@@ -101,7 +101,7 @@ plot_trend
   coeff <- 30
   
 plot_tfr <- ggplot()+
-  geom_line(data=dat.y, aes(x=Year, y=birth_c, col="Crude rate", linetype="Crude rate"),lwd=1.5) +
+  geom_line(data=dat.y, aes(x=Year, y=birth_c, col="GFR", linetype="GFR"),lwd=1.5) +
   geom_line(data=dat.y, aes(x=Year, y=TFR*coeff, col="TRF", linetype="TRF"),lwd=1.5) +
   scale_color_manual("",
                      values=c("grey10","grey50")) +
@@ -112,7 +112,7 @@ plot_tfr <- ggplot()+
                      sec.axis = sec_axis(~./coeff, name = "Total fertility rate (TFR)")) +
   scale_x_continuous(breaks  = seq(1871, 2022,10)) +
     
-    ggtitle("Annual birth rate in Switzerland, 1932-2022") +
+    ggtitle("Annual birth rate in Switzerland, 1871-2022") +
     xlab("Year") +
     ylab("Crude birth rate per 1'000 females in the age 15–49 years") +
     
