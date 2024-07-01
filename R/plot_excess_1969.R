@@ -29,7 +29,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1970.rds") %>
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("1964-01-01")), max(ymd("1974-01-01")))) +
-      ggtitle("Monthly birth rate & the 1969/70 flu") +
+      ggtitle("Monthly GFR & the 1969/70 flu") +
       xlab("Year") +
       ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",

@@ -24,7 +24,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1958.rds") %>
       scale_y_continuous(
         breaks  = seq(4, 8,1))  +
       ylim(c(4,8))+
-      ggtitle("Monthly birth rate & the 1957 flu") +
+      ggtitle("Monthly GFR & the 1957 flu") +
       xlab("Year") +
       ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",

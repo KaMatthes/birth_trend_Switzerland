@@ -32,7 +32,7 @@ plot_birth <- ggplot()+
                    limits =c(min(ymd("2012-01-01")), max(ymd("2023-01-01")))) +
   scale_y_continuous(breaks  = seq(2, 5,1))  +
   ylim(c(2.5,5))+
-      ggtitle("Monthly birth rate: Recent trends") +
+      ggtitle("Monthly GFR: Recent trends") +
       xlab("Year") +
   ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",

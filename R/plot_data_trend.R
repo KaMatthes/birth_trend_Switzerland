@@ -5,7 +5,7 @@ pop_group="female"
 CitGroup="total"
 CanGroup="Switzerland"
 AgeGroup = "15-49"
-Title ="Monthly birth rate in Switzerland, 1871-2022"
+Title ="Monthly GFR in Switzerland, 1871-2022"
 
 load("data/data_total.RData")
   
@@ -102,7 +102,7 @@ plot_trend
   
 plot_tfr <- ggplot()+
   geom_line(data=dat.y, aes(x=Year, y=birth_c, col="GFR", linetype="GFR"),lwd=1.5) +
-  geom_line(data=dat.y, aes(x=Year, y=TFR*coeff, col="TRF", linetype="TRF"),lwd=1.5) +
+  geom_line(data=dat.y, aes(x=Year, y=TFR*coeff, col="TFR", linetype="TFR"),lwd=1.5) +
   scale_color_manual("",
                      values=c("grey10","grey50")) +
   scale_linetype_manual("",
@@ -112,7 +112,7 @@ plot_tfr <- ggplot()+
                      sec.axis = sec_axis(~./coeff, name = "Total fertility rate (TFR)")) +
   scale_x_continuous(breaks  = seq(1871, 2022,10)) +
     
-    ggtitle("Annual birth rate in Switzerland, 1871-2022") +
+    ggtitle("Annual GFR and TFR in Switzerland, 1871-2022") +
     xlab("Year") +
     ylab("Crude birth rate per 1'000 females in the age 15–49 years") +
     
@@ -121,7 +121,7 @@ plot_tfr <- ggplot()+
       axis.text = element_text(size=axis_text_size),
       axis.title  = element_text(size=axis_title_size),
       legend.position = c(0.8,0.8),
-      legend.key.size = unit(2, 'cm'),
+      legend.key.size = unit(3, 'cm'),
       legend.text=element_text(size=legend_text_size),
       plot.title = element_text(size=plot_title_size),
       panel.grid.minor.x = element_blank(),

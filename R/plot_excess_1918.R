@@ -29,7 +29,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1915.rds") %>
       scale_y_continuous(
         breaks  = seq(4, 11,1))  +
       ylim(c(4,11))+
-      ggtitle("Monthly birth rate vs WW1 & the 1918 flu") +
+      ggtitle("Monthly GFR vs WW1 & the 1918 flu") +
       xlab("Year") +
       ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",

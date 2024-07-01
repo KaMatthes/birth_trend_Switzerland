@@ -32,7 +32,7 @@ filter(Year %in% 2004:2014)
       scale_y_continuous(breaks  = seq(2, 6,1))  +
       ylim(c(2,6))+
       
-      ggtitle("Monthly birth rate vs. the Great recession 2008/2009 & the 2009 flu") +
+      ggtitle("Monthly GFR vs. the Great recession 2008/2009 & the 2009 flu") +
       xlab("Year") +
       ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
       scale_color_manual("",
