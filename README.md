@@ -1,4 +1,4 @@
-# The ups and downs of birth rate in Switzerland 2020 to 2023 in a historical context
+# Fertility dynamics through historical pandemics and COVID-19 in Switzerland, 1871-2022
 
 ## Paper (preprint)
 
