@@ -1,5 +1,5 @@
 	
-# Fertility dynamics through historical pandemics and COVID-19 in Switzerland, 1871-2022
+## Fertility dynamics through historical pandemics and COVID-19 in Switzerland, 1871-2022
  
 ## Paper (preprint)
 <br >
