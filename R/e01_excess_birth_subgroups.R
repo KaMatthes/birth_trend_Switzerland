@@ -137,7 +137,7 @@ function_inla_total <- function(varBirth,varPop,Year_Pan,Year_max, Year_min,pop_
 
 function_inla_total(varBirth="total_birth",varPop="population",Year_Pan=1890,Year_max=1900, Year_min=1880,pop_group="female",CitGroup="total", CanGroup="Switzerland",AgeGroup = "15-49")
 
-function_inla_total(varBirth="total_birth",varPop="population",Year_Pan=1915,Year_max=1918, Year_min=1907,pop_group="female",CitGroup="total", CanGroup="Switzerland",AgeGroup = "15-49")
+function_inla_total(varBirth="total_birth",varPop="population",Year_Pan=1915,Year_max=1920, Year_min=1907,pop_group="female",CitGroup="total", CanGroup="Switzerland",AgeGroup = "15-49")
 function_inla_total(varBirth="total_birth",varPop="population",Year_Pan=1919,Year_max=1922, Year_min=1915,pop_group="female",CitGroup="total", CanGroup="Switzerland",AgeGroup = "15-49")
 
 function_inla_total(varBirth="total_birth",varPop="population",Year_Pan=1958,Year_max=1967, Year_min=1947,pop_group="female",CitGroup="total", CanGroup="Switzerland",AgeGroup = "15-49")
