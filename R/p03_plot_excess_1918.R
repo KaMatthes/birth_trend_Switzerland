@@ -1,5 +1,12 @@
-dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1915.rds") %>%
-      mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
+dt1 <-  read_rds("data/expected_birth_inla_month_total_birth_female_1915.rds") %>%
+  filter(Year %in% 1912:1918)
+
+dt2 <-  read_rds("data/expected_birth_inla_month_total_birth_female_1919.rds") %>%
+  filter(Year %in% 1919:1922)
+
+dt <- rbind(dt1, dt2) %>%
+  as_tibble() %>%
+  mutate(birth = ymd(paste0(Year,"-", Month,"-01")),
              birth_inc = birth_var/denominator*1000,
              fit_inc = fit/denominator*1000,
              LL_inc = LL/denominator *1000,
@@ -7,8 +14,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1915.rds") %>
              excess_birth = birth_var-fit,
              rel_excess_birth = excess_birth/fit*100,
              significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and deficits births"),
-             significant_dummy = as.factor( significant_dummy)) %>%
-  filter(Year %in% 1912:1922)
+             significant_dummy = as.factor( significant_dummy)) 
   
  
 
