@@ -11,4 +11,4 @@ The aggregated data is public available via Zenodo:
 <br >
 <br >
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10277091.svg)](https://doi.org/10.5281/zenodo.10277091)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14002025.svg)](https://doi.org/10.5281/zenodo.14002025)
