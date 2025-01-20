@@ -8,25 +8,22 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
              excess_birth = birth_var-fit,
              rel_excess_birth = excess_birth/fit*100,
              significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and deficits births"),
-             significant_dummy = as.factor( significant_dummy)) %>%
+             significant_dummy = as.factor( significant_dummy),
+             birth = birth +15) %>%
   filter(Year %in% 1885:1895)
   
     plot_birth <- ggplot()+
-      
-      annotate("rect",xmin=ymd("1890-08-01"),xmax=ymd("1890-11-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
-      annotate("text",x=ymd("1890-09-15"),y=10.5,label="+9m flu",angle = 90, size=bar_text_size,family = "serif") +
-      
+      annotate("rect",xmin=ymd("1890-08-15"),xmax=ymd("1890-11-15"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("text",x=ymd("1890-10-01"),y=10.5,label="+9m flu",angle = 90, size=bar_text_size,family = "serif") +
       geom_ribbon(data=dt,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
       geom_line(data=dt, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
       geom_line(data=dt, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
-    
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("1885-01-01")), max(ymd("1895-01-01")))) +
       scale_y_continuous(
         breaks  = seq(6, 11,1))  +
       ylim(c(6,11))+
-      
       ggtitle("A) Expected and observed GFR") +
       xlab("Year") +
       ylab("GFR per 1,000 women aged 15–49") +
@@ -34,7 +31,6 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
                          breaks=c("births","fit"),
                          labels=c("Observed births", "Expected births" ),
                          values=c("red", "grey40"))+
-      
       scale_fill_manual("",
                         breaks=c("Interval"),
                         labels=c("Interval of expected births"),
@@ -52,17 +48,17 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
     
     
     plot_excess <- ggplot() +
-      annotate("rect",xmin=ymd("1890-08-01"),xmax=ymd("1890-11-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
-      geom_col(data= dt,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
+      annotate("rect",xmin=ymd("1890-08-15"),xmax=ymd("1890-11-15"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      geom_col(data= dt,aes(x= birth,y =  rel_excess_birth, fill=significant_dummy)) +
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("1885-01-01")), max(ymd("1895-01-01")))) +
-      scale_y_continuous(labels = scales::percent) +
+      # scale_y_continuous(labels = scales::percent) +
       scale_fill_manual("",
                         breaks=c("excess and deficits births","no differences"),
                         values =c("red","grey")) +
       xlab("Year")+
-      ylab("Relatitve differences")+
+      ylab("Relative differences (percentages)")+
       ggtitle("B) Relative excess and deficit GFR") +
       theme_bw() +
       theme(
@@ -82,5 +78,5 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
   
   cowplot::save_plot(paste0("output/plot_birth_1890.pdf"),plot_together ,base_height=15,base_width=15)
   # 
-  # ggsave(paste0("output/plot_birth_1890.png"),     plot_together ,h=15,w=15)
-  # 
+  ggsave(paste0("output/plot_birth_1890.png"),     plot_together ,h=15,w=15)
+

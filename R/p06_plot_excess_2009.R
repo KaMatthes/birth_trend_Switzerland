@@ -7,34 +7,26 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_2010.rds") %>
              excess_birth = birth_var-fit,
              rel_excess_birth = excess_birth/fit*100,
              significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and deficits births"),
-             significant_dummy = as.factor( significant_dummy)) %>%
+             significant_dummy = as.factor( significant_dummy),
+             birth = birth + 15) %>%
 filter(Year %in% 2004:2014)
 
-    
-    
-    
     plot_birth <- ggplot()+
-      
-      
-      annotate("rect",xmin=ymd("2010-07-01"),xmax=ymd("2010-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
-      annotate("text",x=ymd("2010-08-01"),y=5.0,label="+9m. 2009 flu",angle = 90, size=bar_text_size) +
-      annotate("rect",xmin=ymd("2009-07-01"),xmax=ymd("2009-12-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="lightgreen") +
-      annotate("text",x=ymd("2009-09-15"),y=5.0,label="+9m. Great recession",angle = 90, size=bar_text_size) +
-      
+      annotate("rect",xmin=ymd("2010-07-15"),xmax=ymd("2010-09-15"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("text",x=ymd("2010-08-15"),y=5.0,label="+9m. flu",angle = 90, size=bar_text_size,family = "serif") +
+      annotate("rect",xmin=ymd("2009-07-15"),xmax=ymd("2009-12-15"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="lightgreen") +
+      annotate("text",x=ymd("2009-10-01"),y=5.0,label="+9m. great recession",angle = 90, size=bar_text_size,family = "serif") +
       geom_ribbon(data=dt,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
       geom_line(data=dt, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
       geom_line(data=dt, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
-    
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("2004-01-01")), max(ymd("2014-01-01")))) +
-      
       scale_y_continuous(breaks  = seq(2, 6,1))  +
       ylim(c(2,6))+
-      
-      ggtitle("Monthly GFR vs. the Great recession 2008/2009 & the 2009 flu") +
+      ggtitle("A) Expected and observed GFR") +
       xlab("Year") +
-      ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
+      ylab("GFR per 1,000 women aged 15–49") +
       scale_color_manual("",
                          breaks=c("births","fit"),
                          labels=c("Observed births", "Expected births" ),
@@ -46,6 +38,7 @@ filter(Year %in% 2004:2014)
                         values=c( "grey90")) +
       theme_bw() +
       theme(
+        text = element_text(family = "serif"),
         axis.text = element_text(size=axis_text_size),
         axis.title  = element_text(size=axis_title_size),
         legend.position = "bottom",
@@ -56,18 +49,19 @@ filter(Year %in% 2004:2014)
     
     
     plot_excess <- ggplot() +
-      annotate("rect",xmin=ymd("2010-07-01"),xmax=ymd("2010-09-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
-      annotate("rect",xmin=ymd("2009-07-01"),xmax=ymd("2009-12-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="lightgreen") +
-      geom_col(data= dt,aes(x= birth,y =  rel_excess_birth/100, fill=significant_dummy)) +
+      annotate("rect",xmin=ymd("2010-07-15"),xmax=ymd("2010-09-15"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
+      annotate("rect",xmin=ymd("2009-07-15"),xmax=ymd("2009-12-15"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="lightgreen") +
+      geom_col(data= dt,aes(x= birth,y =  rel_excess_birth, fill=significant_dummy)) +
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("2004-01-01")), max(ymd("2014-01-01")))) +
-      scale_y_continuous(labels = scales::percent) +
+      # scale_y_continuous(labels = scales::percent) +
       scale_fill_manual("",
                         breaks=c("excess and deficits births","no differences"),
                         values =c("red","grey")) +
       xlab("Year")+
-      ylab("Relatitve differences")+
+      ylab("Relative differences (percentages)")+
+      ggtitle("B) Relative excess and deficit GFR") +
       theme_bw() +
       theme(
         axis.text = element_text(size=axis_text_size),
@@ -82,7 +76,7 @@ filter(Year %in% 2004:2014)
     plot_together <- cowplot::plot_grid(plot_birth,plot_excess,
                                         ncol=1, nrow=2,rel_heights = c(1,1), align="hv")
   
-  # cowplot::save_plot(paste0("output/plot_birth_2009.pdf"),plot_together ,base_height=15,base_width=15)
+  cowplot::save_plot(paste0("output/plot_birth_2009.pdf"),plot_together ,base_height=15,base_width=15)
   
   ggsave(paste0("output//plot_birth_2009.png"),     plot_together ,h=15,w=15)
 

@@ -31,16 +31,16 @@ plot_trend <- ggplot()+
   annotate("text",x=ymd("1889-08-01"),y=5, label="+9m. 1890 flu",angle = 90, size=bar_text_size,family = "serif") +
   
   annotate("rect",xmin=ymd("1915-05-01"),xmax=ymd("1915-07-01"),ymin=7.5,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1914-03-01"),y=10,label="+9m. Start WW1",angle = 90, size=bar_text_size,family = "serif") +
+  annotate("text",x=ymd("1914-03-01"),y=10,label="+9m. start WW1",angle = 90, size=bar_text_size,family = "serif") +
   
   annotate("rect",xmin=ymd("1919-07-01"),xmax=ymd("1919-09-01"),ymin=7.5,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1920-12-01"),y=10,label="+9m. End WW1 & 1918 flu",lineheight=0.8,angle = 90, size=bar_text_size,family = "serif") +
+  annotate("text",x=ymd("1920-12-01"),y=10,label="+9m. end WW1 & 1918 flu",lineheight=0.8,angle = 90, size=bar_text_size,family = "serif") +
   
   annotate("rect",xmin=ymd("1940-05-01"),xmax=ymd("1940-07-01"),ymin=6,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1938-09-01"),y=10,label="+9m. Start WW2",lineheight=0.8, angle = 90, size=bar_text_size,family = "serif") +
+  annotate("text",x=ymd("1938-09-01"),y=10,label="+9m. start WW2",lineheight=0.8, angle = 90, size=bar_text_size,family = "serif") +
   
   annotate("rect",xmin=ymd("1946-01-01"),xmax=ymd("1946-03-01"),ymin=7.5,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1947-06-01"),y=10,label="+9m. End WW2",angle = 90, size=bar_text_size,family = "serif") +
+  annotate("text",x=ymd("1947-06-01"),y=10,label="+9m. end WW2",angle = 90, size=bar_text_size,family = "serif") +
   
   annotate("rect",xmin=ymd("1958-06-01"),xmax=ymd("1958-08-01"),ymin=7,ymax=Inf,alpha=0.8,fill="lightgrey") +
   annotate("text",x=ymd("1957-04-01"),y=10,label="+9m. 1957 flu",angle = 90, size=bar_text_size,family = "serif") +
@@ -49,7 +49,7 @@ plot_trend <- ggplot()+
   annotate("text",x=ymd("1964-08-01"),y=10,label="+9m. 1st approval \n birth control pill",lineheight=0.8,angle = 90, size=bar_text_size,family = "serif") +
   
   annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=4.5,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("2019-8-01"),y=10,label="+9m. Start Covid-19",angle = 90, size=bar_text_size,family = "serif") +
+  annotate("text",x=ymd("2019-8-01"),y=10,label="+9m. start Covid-19",angle = 90, size=bar_text_size,family = "serif") +
 
   scale_color_manual("",
                      values=c( "grey40"),
