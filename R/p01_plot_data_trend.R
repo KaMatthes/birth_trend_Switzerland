@@ -24,35 +24,32 @@ load("data/data_total.RData")
     arrange(Year)
   
 
-
-
-
 plot_trend <- ggplot()+
   geom_line(data=dat.trend, aes(x=birth, y=birth_inc, col="births"),lwd=1) +
 
   annotate("rect",xmin=ymd("1890-09-01"),xmax=ymd("1890-11-01"),ymin=-Inf,ymax=6.5,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1889-08-01"),y=5, label="+9m. 1890 flu",angle = 90, size=bar_text_size) +
+  annotate("text",x=ymd("1889-08-01"),y=5, label="+9m. 1890 flu",angle = 90, size=bar_text_size,family = "serif") +
   
-  annotate("rect",xmin=ymd("1915-05-01"),xmax=ymd("1915-07-01"),ymin=8,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1914-03-01"),y=10,label="+9m. Start WW1",angle = 90, size=bar_text_size) +
+  annotate("rect",xmin=ymd("1915-05-01"),xmax=ymd("1915-07-01"),ymin=7.5,ymax=Inf,alpha=1,fill="lightgrey") +
+  annotate("text",x=ymd("1914-03-01"),y=10,label="+9m. Start WW1",angle = 90, size=bar_text_size,family = "serif") +
   
-  annotate("rect",xmin=ymd("1919-07-01"),xmax=ymd("1919-09-01"),ymin=8,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1921-12-01"),y=10,label="+9m. End WW1\n& 1918 flu",lineheight=0.8,angle = 90, size=bar_text_size) +
+  annotate("rect",xmin=ymd("1919-07-01"),xmax=ymd("1919-09-01"),ymin=7.5,ymax=Inf,alpha=1,fill="lightgrey") +
+  annotate("text",x=ymd("1920-12-01"),y=10,label="+9m. End WW1 & 1918 flu",lineheight=0.8,angle = 90, size=bar_text_size,family = "serif") +
   
   annotate("rect",xmin=ymd("1940-05-01"),xmax=ymd("1940-07-01"),ymin=6,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1938-09-01"),y=10,label="+9m. Start\nWW2",lineheight=0.8, angle = 90, size=bar_text_size) +
+  annotate("text",x=ymd("1938-09-01"),y=10,label="+9m. Start WW2",lineheight=0.8, angle = 90, size=bar_text_size,family = "serif") +
   
-  annotate("rect",xmin=ymd("1946-01-01"),xmax=ymd("1946-03-01"),ymin=8,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1947-04-01"),y=10,label="+9m. End WW2",angle = 90, size=bar_text_size) +
+  annotate("rect",xmin=ymd("1946-01-01"),xmax=ymd("1946-03-01"),ymin=7.5,ymax=Inf,alpha=1,fill="lightgrey") +
+  annotate("text",x=ymd("1947-06-01"),y=10,label="+9m. End WW2",angle = 90, size=bar_text_size,family = "serif") +
   
   annotate("rect",xmin=ymd("1958-06-01"),xmax=ymd("1958-08-01"),ymin=7,ymax=Inf,alpha=0.8,fill="lightgrey") +
-  annotate("text",x=ymd("1957-04-01"),y=10,label="+9m. 1957 flu",angle = 90, size=bar_text_size) +
+  annotate("text",x=ymd("1957-04-01"),y=10,label="+9m. 1957 flu",angle = 90, size=bar_text_size,family = "serif") +
   
   annotate("rect",xmin=ymd("1962-01-01"),xmax=ymd("1962-03-01"),ymin=7,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("1964-03-01"),y=10,label="+9m. 1st approval\nbirth control pill",lineheight=0.8,angle = 90, size=bar_text_size) +
+  annotate("text",x=ymd("1964-08-01"),y=10,label="+9m. 1st approval \n birth control pill",lineheight=0.8,angle = 90, size=bar_text_size,family = "serif") +
   
   annotate("rect",xmin=ymd("2020-12-01"),xmax=ymd("2021-02-01"),ymin=4.5,ymax=Inf,alpha=1,fill="lightgrey") +
-  annotate("text",x=ymd("2019-11-01"),y=10,label="+9m. Start Covid-19",angle = 90, size=bar_text_size) +
+  annotate("text",x=ymd("2019-8-01"),y=10,label="+9m. Start Covid-19",angle = 90, size=bar_text_size,family = "serif") +
 
   scale_color_manual("",
                      values=c( "grey40"),
@@ -64,26 +61,28 @@ plot_trend <- ggplot()+
   scale_y_continuous(
                breaks  = seq(0, 12,1))  +
   
-  ggtitle(Title) +
+  # ggtitle(Title) +
   xlab("Year") +
-  ylab("General fertility rate (GFR) per 1'000 females in the age 15–49 years") +
+  ylab("GFR per 1,000 women aged 15–49") +
   
       theme_bw() +
   theme(
+    text = element_text(family = "serif"),
     axis.text = element_text(size=axis_text_size),
     axis.title  = element_text(size=axis_title_size),
     legend.position = "bottom",
     legend.text=element_text(size=legend_text_size),
     plot.title = element_text(size=plot_title_size),
     panel.grid.minor.x = element_blank(),
-    panel.grid.minor.y = element_blank())
+    panel.grid.minor.y = element_blank()) +
+  coord_cartesian(ylim=c(3, 12))
 
 plot_trend
   
-  # cowplot::save_plot(paste0("output/plot_trend_",varBirth,".pdf"),   plot_trend ,base_height=10,base_width=20)
+  cowplot::save_plot(paste0("output/plot_trend_",varBirth,".pdf"),   plot_trend ,base_height=10,base_width=20)
   
-  ggsave(paste0("output/plot_trend_",varBirth,".png"),  plot_trend,h=10,w=20)
-  
+  # ggsave(paste0("output/plot_trend_",varBirth,".png"),  plot_trend,h=10,w=20)
+  # 
   
 ### Annual crude rate vs TFR
   
@@ -108,17 +107,19 @@ plot_tfr <- ggplot()+
   scale_linetype_manual("",
                      values=c("solid","longdash")) +
   
-  scale_y_continuous(name = "General fertility rate (GFR) per 1'000 females in the age 15–49 years",
-                     sec.axis = sec_axis(~./coeff, name = "Total fertility rate (TFR)")) +
+  scale_y_continuous(name = "GFR per 1,000 women aged 15–49",
+                     sec.axis = sec_axis(~./coeff, name = "TFR")) +
   scale_x_continuous(breaks  = seq(1871, 2022,10)) +
     
-    ggtitle("Annual GFR and TFR in Switzerland, 1871-2022") +
+    # ggtitle("Annual GFR and TFR in Switzerland, 1871-2022") +
     xlab("Year") +
-    ylab("Crude birth rate per 1'000 females in the age 15–49 years") +
+    ylab("Crude birth rate per 1,000 women aged 15–49 years") +
     
     theme_bw() +
     theme(
+      text = element_text(family = "serif"),
       axis.text = element_text(size=axis_text_size),
+      axis.ticks.length.y = unit(-3, "point"),
       axis.title  = element_text(size=axis_title_size),
       legend.position = c(0.8,0.8),
       legend.key.size = unit(3, 'cm'),
@@ -127,9 +128,9 @@ plot_tfr <- ggplot()+
       panel.grid.minor.x = element_blank(),
       panel.grid.minor.y = element_blank())
 # 
-# cowplot::save_plot("output/plot_com.pdf", plot_com ,base_height=10,base_width=20)
+cowplot::save_plot("output/plot_TRF.pdf", plot_tfr ,base_height=10,base_width=20)
 
-ggsave(paste0("output/plot_TFR.png"),  plot_tfr ,h=10,w=20)
+# ggsave(paste0("output/plot_TFR.png"),  plot_tfr ,h=10,w=20)
 
 
 

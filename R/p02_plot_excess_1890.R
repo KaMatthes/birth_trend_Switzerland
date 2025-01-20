@@ -14,7 +14,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
     plot_birth <- ggplot()+
       
       annotate("rect",xmin=ymd("1890-08-01"),xmax=ymd("1890-11-01"),ymin=-Inf,ymax=Inf,alpha=0.2,fill="turquoise2") +
-      annotate("text",x=ymd("1890-09-15"),y=6.5,label="+9m flu",angle = 90, size=bar_text_size) +
+      annotate("text",x=ymd("1890-09-15"),y=10.5,label="+9m flu",angle = 90, size=bar_text_size,family = "serif") +
       
       geom_ribbon(data=dt,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
       geom_line(data=dt, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
@@ -27,9 +27,9 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
         breaks  = seq(6, 11,1))  +
       ylim(c(6,11))+
       
-      ggtitle("Monthly GFR & the 1890 flu") +
+      ggtitle("A) Expected and observed GFR") +
       xlab("Year") +
-      ylab("General fertility rate (GFR) \n per 1'000 females in the age 15–49 years") +
+      ylab("GFR per 1,000 women aged 15–49") +
       scale_color_manual("",
                          breaks=c("births","fit"),
                          labels=c("Observed births", "Expected births" ),
@@ -41,6 +41,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
                         values=c( "grey90")) +
       theme_bw() +
       theme(
+        text = element_text(family = "serif"),
         axis.text = element_text(size=axis_text_size),
         axis.title  = element_text(size=axis_title_size),
         legend.position = "bottom",
@@ -62,8 +63,10 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
                         values =c("red","grey")) +
       xlab("Year")+
       ylab("Relatitve differences")+
+      ggtitle("B) Relative excess and deficit GFR") +
       theme_bw() +
       theme(
+        text = element_text(family = "serif"),
         axis.text = element_text(size=axis_text_size),
         axis.title  = element_text(size=axis_title_size),
         legend.position = "bottom",
@@ -77,7 +80,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
                                         ncol=1, nrow=2,rel_heights = c(1,1), align="hv")
 
   
-  # cowplot::save_plot(paste0("output/plot_birth_1890.pdf"),plot_together ,base_height=15,base_width=15)
-  
-  ggsave(paste0("output/plot_birth_1890.png"),     plot_together ,h=15,w=15)
-
+  cowplot::save_plot(paste0("output/plot_birth_1890.pdf"),plot_together ,base_height=15,base_width=15)
+  # 
+  # ggsave(paste0("output/plot_birth_1890.png"),     plot_together ,h=15,w=15)
+  # 
