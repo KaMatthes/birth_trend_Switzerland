@@ -7,7 +7,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
              UL_inc = UL/denominator*1000,
              excess_birth = birth_var-fit,
              rel_excess_birth = excess_birth/fit*100,
-             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and deficits births"),
+             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and deficit births"),
              significant_dummy = as.factor( significant_dummy),
              birth = birth +15) %>%
   filter(Year %in% 1885:1895)
@@ -21,20 +21,21 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
                    limits =c(min(ymd("1885-01-01")), max(ymd("1895-01-01")))) +
-      scale_y_continuous(
-        breaks  = seq(6, 11,1))  +
+      scale_y_continuous(breaks  = seq(6, 11,1))  +
       ylim(c(6,11))+
       ggtitle("A) Expected and observed GFR") +
       xlab("Year") +
       ylab("GFR per 1,000 women aged 15–49") +
       scale_color_manual("",
                          breaks=c("births","fit"),
-                         labels=c("Observed births", "Expected births" ),
+                         labels=c("observed births", "expected births" ),
                          values=c("red", "grey40"))+
       scale_fill_manual("",
                         breaks=c("Interval"),
-                        labels=c("Interval of expected births"),
+                        labels=c("95 per cent CrI of expected births"),
                         values=c( "grey90")) +
+      guides(color = guide_legend(order = 1),
+             fill = guide_legend(order = 2)) +
       theme_bw() +
       theme(
         text = element_text(family = "serif"),
@@ -55,7 +56,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_1890.rds") %>
                    limits =c(min(ymd("1885-01-01")), max(ymd("1895-01-01")))) +
       # scale_y_continuous(labels = scales::percent) +
       scale_fill_manual("",
-                        breaks=c("excess and deficits births","no differences"),
+                        breaks=c("excess and deficit births","no differences"),
                         values =c("red","grey")) +
       xlab("Year")+
       ylab("Relative differences (percentages)")+

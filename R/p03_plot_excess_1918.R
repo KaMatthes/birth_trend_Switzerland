@@ -13,7 +13,7 @@ dt <- rbind(dt1, dt2) %>%
              UL_inc = UL/denominator*1000,
              excess_birth = birth_var-fit,
              rel_excess_birth = excess_birth/fit*100,
-             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and deficits births"),
+             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and deficit births"),
              significant_dummy = as.factor( significant_dummy),
          birth = birth + 15) 
   
@@ -25,8 +25,8 @@ plot_birth <- ggplot()+
       geom_ribbon(data=dt,aes(ymin=LL_inc, ymax=UL_inc,x=birth,fill="Interval"),linetype=1, alpha=1) +
       geom_line(data=dt, aes(x=birth, y=birth_inc, col="births"),lwd=1.8) +
       geom_line(data=dt, aes(x=birth, y=fit_inc, col="fit"),lwd=1) +
-      annotate("text",x=ymd("1915-06-01"),y=9,label="+9m. start WW1",angle = 90, size=bar_text_size,family = "serif") +
-      annotate("text",x=ymd("1919-07-15"),y=9,label="+9m. end WW1\n & 1918 flu",lineheight=0.8,angle = 90, size=bar_text_size,family = "serif") +
+      annotate("text",x=ymd("1915-06-01"),y=9.5,label="+9m. start WW1",angle = 90, size=bar_text_size,family = "serif") +
+      annotate("text",x=ymd("1919-07-15"),y=9.5,label="+9m. end WW1\n & 1918 flu",lineheight=0.8,angle = 90, size=bar_text_size,family = "serif") +
       annotate("text",x=ymd("1920-11-15"),y=9,label="+9m. strong later wave",lineheight=0.8,angle = 90, size=bar_text_size,family = "serif") +
       scale_x_date(labels = date_format("%Y"), 
                    breaks = date_breaks("1 year"),
@@ -39,13 +39,15 @@ plot_birth <- ggplot()+
       ylab("GFR per 1,000 women aged 15–49") +
       scale_color_manual("",
                          breaks=c("births","fit"),
-                         labels=c("Observed births", "Expected births" ),
+                         labels=c("observed births", "expected births" ),
                          values=c("red", "grey40"))+
       
-      scale_fill_manual("",
-                        breaks=c("Interval"),
-                        labels=c("Interval of expected births"),
-                        values=c( "grey90")) +
+  scale_fill_manual("",
+                    breaks=c("Interval"),
+                    labels=c("95 per cent CrI of expected births"),
+                    values=c( "grey90")) +
+  guides(color = guide_legend(order = 1),
+         fill = guide_legend(order = 2)) +
       theme_bw() +
       theme(
         text = element_text(family = "serif"),
@@ -68,7 +70,7 @@ plot_birth <- ggplot()+
                    limits =c(min(ymd("1912-01-01")), max(ymd("1922-01-01")))) +
       # scale_y_continuous(labels = scales::percent) +
       scale_fill_manual("",
-                        breaks=c("excess and deficits births","no differences"),
+                        breaks=c("excess and deficit births","no differences"),
                         values =c("red","grey")) +
       xlab("Year")+
       ylab("Relative differences (percentages)")+
