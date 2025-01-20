@@ -81,7 +81,7 @@ plot_trend
   
   cowplot::save_plot(paste0("output/plot_trend_",varBirth,".pdf"),   plot_trend ,base_height=10,base_width=20)
   
-  # ggsave(paste0("output/plot_trend_",varBirth,".png"),  plot_trend,h=10,w=20)
+  ggsave(paste0("output/plot_trend_",varBirth,".png"),  plot_trend,h=10,w=20)
   # 
   
 ### Annual crude rate vs TFR
@@ -130,7 +130,7 @@ plot_tfr <- ggplot()+
 # 
 cowplot::save_plot("output/plot_TRF.pdf", plot_tfr ,base_height=10,base_width=20)
 
-# ggsave(paste0("output/plot_TFR.png"),  plot_tfr ,h=10,w=20)
+ggsave(paste0("output/plot_TFR.png"),  plot_tfr ,h=10,w=20)
 
 
 
