@@ -28,10 +28,10 @@ Figure1 <- ggplot() +
   ylim(-300, 7000)+
   scale_x_continuous(limits=c(1, 72), breaks = c(1,13,25,37,49,61),
                      label = c("2018", "2019", "2020", "2021", "2022", "2023"))+
-  theme(axis.text.x = element_text(size=40, angle=45, vjust = 0.5, hjust=0.5))+
   theme_bw()+
-  theme(text = element_text(size = 50))+
   theme(
+    text = element_text(size = 40),
+    axis.text.x = element_text(size=40, angle=45, vjust = 0.5, hjust=0.5),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     panel.grid.minor.y = element_blank(),
@@ -62,14 +62,14 @@ Figure2 <- ggplot() +
   annotate("text", x=63.5, y=95, label="i", angle=0, size=10, color="black")+
   xlab("Months")+
   ylab("CPI")+
-  ggtitle("B) Consumer Prize Index ") +
+  ggtitle("B) Consumer Price Index ") +
   ylim(95, 105)+
   scale_x_continuous(limits=c(1, 72), breaks = c(1,13,25,37,49,61),
                      label = c("2018", "2019", "2020", "2021", "2022", "2023"))+
-  theme(axis.text.x = element_text(size=40, angle=45, vjust = 0.5, hjust=0.5))+
   theme_bw()+
-  theme(text = element_text(size = 50))+
   theme(
+    text = element_text(size = 40),
+    axis.text.x = element_text(size=40, angle=45, vjust = 0.5, hjust=0.5),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     panel.grid.minor.y = element_blank(),
@@ -103,10 +103,10 @@ Figure3 <- ggplot() +
   ylim(0, 5)+
   scale_x_continuous(limits=c(1, 72), breaks = c(1,13,25,37,49,61),
                      label = c("2018", "2019", "2020", "2021", "2022", "2023"))+
-  theme(axis.text.x = element_text(size=40, angle=45, vjust = 0.5, hjust=0.5))+
   theme_bw()+
-  theme(text = element_text(size = 50))+
   theme(
+    text = element_text(size = 40),
+    axis.text.x = element_text(size=40, angle=45, vjust = 0.5, hjust=0.5),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     panel.grid.minor.y = element_blank(),
@@ -141,10 +141,10 @@ Figure4 <- ggplot() +
   ylim(-5, 100)+
   scale_x_continuous(limits=c(1, 72), breaks = c(1,13,25,37,49,61),
                      label = c("2018", "2019", "2020", "2021", "2022", "2023"))+
-  theme(axis.text.x = element_text(size=40, angle=45, vjust = 0.5, hjust=0.5))+
   theme_bw()+
-  theme(text = element_text(size = 50))+
   theme(
+    axis.text.x = element_text(size=40, angle=45, vjust = 0.5, hjust=0.5),
+    text = element_text(size = 40),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     panel.grid.minor.y = element_blank(),
@@ -153,7 +153,9 @@ Figure4 <- ggplot() +
 
 Figure_Cont <- plot_grid(Figure1, Figure2, Figure3, Figure4, ncol = 1,align = 'v')
 
-cowplot::save_plot("output/context.png", Figure_Cont,base_height=40,base_width=25)
+# cowplot::save_plot("output/context.png", Figure_Cont,base_height=40,base_width=25, dpi)
+
+ggsave(paste0("output/context.png"),Figure_Cont ,h=40,w=25,dpi = 600)
 
 
 
