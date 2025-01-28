@@ -6,7 +6,7 @@ dt <-  read_rds("data/expected_birth_inla_month_total_birth_female_2010.rds") %>
              UL_inc = UL/denominator*1000,
              excess_birth = birth_var-fit,
              rel_excess_birth = excess_birth/fit*100,
-             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"no differences","excess and deficit births"),
+             significant_dummy = ifelse(birth_inc > LL_inc & birth_inc  < UL_inc,"No differences","Excess and deficit births"),
              significant_dummy = as.factor( significant_dummy),
              birth = birth + 15) %>%
 filter(Year %in% 2004:2014)
@@ -24,12 +24,12 @@ filter(Year %in% 2004:2014)
                    limits =c(min(ymd("2004-01-01")), max(ymd("2014-01-01")))) +
       scale_y_continuous(breaks  = seq(2, 6,1))  +
       ylim(c(2,6))+
-      ggtitle("A) Expected and observed GFR") +
+      ggtitle("(a) Expected and observed GFR") +
       xlab("Year") +
       ylab("GFR per 1,000 women aged 15–49") +
       scale_color_manual("",
                          breaks=c("births","fit"),
-                         labels=c("observed births", "expected births" ),
+                         labels=c("Observed births", "Expected births" ),
                          values=c("red", "grey40"))+
       scale_fill_manual("",
                         breaks=c("Interval"),
@@ -58,11 +58,11 @@ filter(Year %in% 2004:2014)
                    limits =c(min(ymd("2004-01-01")), max(ymd("2014-01-01")))) +
       # scale_y_continuous(labels = scales::percent) +
       scale_fill_manual("",
-                        breaks=c("excess and deficit births","no differences"),
+                        breaks=c("Excess and deficit births","No differences"),
                         values =c("red","grey")) +
       xlab("Year")+
       ylab("Relative differences (percentages)")+
-      ggtitle("B) Relative excess and deficit GFR") +
+      ggtitle("(b) Relative excess and deficit GFR") +
       theme_bw() +
       theme(
         text = element_text(family = "serif"),
