@@ -1,10 +1,10 @@
 	
 # Fertility dynamics through historical pandemics and COVID-19 in Switzerland, 1871-2022
  
-## Paper (preprint)
+## Paper
 <br >
-Mathilde Le Vu, Katarina L Matthes, Kaspar Staub (2023) preprint: The ups and downs of birth rate in Switzerland 2020 to 2023 in a historical context <i> medRxiv </i> 
-https://doi.org/10.1101/2023.12.05.23299432
+Katarina L Matthes, Mathilde Le Vu, Kaspar Staub (2025) Fertility dynamics through historical pandemics and COVID-19 in Switzerland, 1871-2022 <i>  Population Studies, 1–16 </i> 
+https://doi.org/10.1080/00324728.2025.2462291
 
 ## Data
 The aggregated data is public available via Zenodo:
