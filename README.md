@@ -10,7 +10,6 @@ https://doi.org/10.1080/00324728.2025.2462291
 The aggregated data is public available via Zenodo:
 <br >
 <br >
-
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14002025.svg)](https://doi.org/10.5281/zenodo.14002025)
 
 
